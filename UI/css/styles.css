@@ -1,0 +1,93 @@
+/*
+================================
+      Responsiveness
+================================
+*/
+
+@media only screen and (max-width: 375px) {
+
+  .landing-image-contaner,
+  .landing-image-contaner img {
+    width: 300px !important;
+  }
+
+  .landing-image-contaner {
+    margin: 40px auto 0 !important;
+  }
+}
+
+@media only screen and (max-width: 667px) {
+
+  .landing-image-contaner,
+  .landing-image-contaner img {
+    width: 450px !important;
+  }
+}
+
+@media only screen and (max-width: 853px) {
+
+  .landing-image-contaner,
+  .landing-image-contaner img {
+    width: 700px !important;
+  }
+}
+
+/*
+================================
+      Landing page style
+================================
+*/
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box;
+  background-color: #efefef;
+  font-family: 'Karla', sans-serif;
+  color: #000000;
+  overflow-x: hidden;
+}
+
+nav {
+  background-color: #ffffff;
+  padding: 20px;
+  border: 1px solid #f9f9f9;
+  box-shadow: 1px 1px 1px 2px #e6e6e6;
+  height: 23px;
+}
+
+nav a {
+  text-decoration: none;
+  padding: 10px;
+}
+
+nav span {
+  font-family: 'Akronim', cursive;
+  font-size: 28px;
+  line-height: 23px;
+}
+
+.right-side {
+  float: right;
+}
+
+.right-side a {
+  padding: 10px;
+  background-color: #0012a0;
+  color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px 1px #efefef;
+}
+
+.right-side a:hover {
+  transition: background .9s;
+  background-color: #001086;
+}
+
+.landing-image-contaner {
+  width: 1000px;
+  margin: 40px auto 0;
+}
+
+.landing-image-contaner img {
+  width: 1000px;
+}
