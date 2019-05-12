@@ -123,6 +123,44 @@ nav span {
 
 /*
 ================================
+      Options page styles
+================================
+*/
+
+.wrapper-option {
+  width: 100vw;
+  height: 100vh;
+}
+.content-option {
+  width: 300px;
+  background-color: #ffffff;
+  text-align: center;
+  height: 200px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px 2px #e8e8e8;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.content-option a {
+  display: block;
+  margin-bottom: 10px;
+  text-decoration: none;
+  padding: 10px;
+  background-color: #0012a0; 
+  color: #ffffff;
+  border-radius: 5px;
+}
+
+.content-option a:hover {
+  background-color: #001086;
+  transition: background-color .9s;
+}
+
+/*
+================================
       Responsiveness
 ================================
 */
