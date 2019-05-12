@@ -1,43 +1,5 @@
 /*
 ================================
-      Responsiveness
-================================
-*/
-
-@media only screen and (max-width: 375px) {
-
-  .landing-image-contaner,
-  .landing-image-contaner img {
-    width: 300px !important;
-  }
-
-  .landing-image-contaner {
-    margin: 40px auto 0 !important;
-  }
-
-  #form {
-    width: 230px;
-  }
-}
-
-@media only screen and (max-width: 667px) {
-
-  .landing-image-contaner,
-  .landing-image-contaner img {
-    width: 450px !important;
-  }
-}
-
-@media only screen and (max-width: 853px) {
-
-  .landing-image-contaner,
-  .landing-image-contaner img {
-    width: 700px !important;
-  }
-}
-
-/*
-================================
       Landing page style
 ================================
 */
@@ -97,9 +59,9 @@ nav span {
 }
 
 /*
-================================
-      Sign up page style
-================================
+=======================================
+      Sign up and login page style
+=======================================
 */
 
 #form {
@@ -153,6 +115,48 @@ nav span {
   cursor: pointer;
   background-color: #001086;
   transition: background-color .9s;
+}
+
+.login-height {
+  height: 225px;
+}
+
+/*
+================================
+      Responsiveness
+================================
+*/
+
+@media only screen and (max-width: 375px) {
+
+  .landing-image-contaner,
+  .landing-image-contaner img {
+    width: 300px !important;
+  }
+
+  .landing-image-contaner {
+    margin: 40px auto 0 !important;
+  }
+
+  #form {
+    width: 230px;
+  }
+}
+
+@media only screen and (max-width: 667px) {
+
+  .landing-image-contaner,
+  .landing-image-contaner img {
+    width: 450px !important;
+  }
+}
+
+@media only screen and (max-width: 853px) {
+
+  .landing-image-contaner,
+  .landing-image-contaner img {
+    width: 700px !important;
+  }
 }
 
 @media only screen and (max-width: 425px) {
