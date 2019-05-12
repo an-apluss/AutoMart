@@ -14,6 +14,10 @@
   .landing-image-contaner {
     margin: 40px auto 0 !important;
   }
+
+  #form {
+    width: 230px;
+  }
 }
 
 @media only screen and (max-width: 667px) {
@@ -90,4 +94,69 @@ nav span {
 
 .landing-image-contaner img {
   width: 1000px;
+}
+
+/*
+================================
+      Sign up page style
+================================
+*/
+
+#form {
+  width: 400px;
+  background-color: #ffffff;
+  margin: 0 auto;
+  box-shadow: 1px 1px 1px 2px #e8e8e8;
+  border-radius: 5px;
+  padding: 30px;
+  margin-top: 20px;
+}
+
+.signup-height{
+  height: 440px;
+}
+
+.space-bottom {
+  margin-bottom: 15px;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.input-style {
+  width: 80%;
+  color: #a2a2a2;
+  border-radius: 5px;
+  font-size: 18px;
+  height: 20px;
+  border: 1px solid #f3eded;
+  padding: 10px;
+  background-color: #f9f9f9;
+  letter-spacing: .2em;
+}
+
+.button-style {
+  width: 50%;
+  padding: 5px;
+  height: 34px;
+  border-radius: 5px;
+  background-color: #0012a0;
+  color: #ffffff;
+  box-shadow: 1px 1px 1px 2px #efefef;
+  border: none;
+  font-size: 15px;
+  letter-spacing: .2em;
+}
+
+.button-style:hover {
+  cursor: pointer;
+  background-color: #001086;
+  transition: background-color .9s;
+}
+
+@media only screen and (max-width: 425px) {
+  #form {
+    width: 300px;
+  }
 }
