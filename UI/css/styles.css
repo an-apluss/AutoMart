@@ -233,7 +233,8 @@ nav span {
   color: #02107d;
 }
 
-.item-state, .item-status {
+.item-state, .item-status,
+.item--order-status {
   padding: 2px 7px 2px;
   border-radius: 15px;
   color: #ffffff;
@@ -243,7 +244,8 @@ nav span {
   background-color: rgb(255, 136, 0);
 }
 
-.item-status {
+.item-status,
+.item--order-status {
   background-color: #cccccc;
   float: right;
 }
@@ -274,6 +276,10 @@ nav span {
   text-align: center;
 }
 
+.item--order-status {
+  margin-right: 5px;
+}
+
 /*
 *==============================
 *      MODAL STYLES
@@ -281,7 +287,8 @@ nav span {
 */
 
 .editAdvertModal,
-.orderModal {
+.orderModal,
+.editOrderModal {
   position: fixed;
   left: 0;
   top: 0;
