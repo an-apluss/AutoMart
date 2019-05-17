@@ -31,3 +31,14 @@ const orderModal = document.querySelector('.orderModal');
 const clickedOrder = document.querySelectorAll('.order');
 
 modalController(orderModal, clickedOrder, closeButton);
+
+/*
+*============================================
+*           Edit Order modal script
+*============================================
+*/
+
+const editOrderModal = document.querySelector('.editOrderModal');
+const clickOrdered = document.querySelectorAll('.edit');
+  
+modalController(editOrderModal, clickOrdered, closeButton);
