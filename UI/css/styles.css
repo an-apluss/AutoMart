@@ -280,6 +280,21 @@ nav span {
   margin-right: 5px;
 }
 
+.item-action a.report {
+  background-color: #d8cabe;
+  color: #b96800;
+  box-shadow: 1px 1px 1px 1px #b96800;
+}
+
+/* Report style */
+.report-wrapper--height {
+  height: 490px;
+}
+
+.report-wrapper--height .txt-area--height {
+  height: 63px;
+}
+
 /*
 *==============================
 *      MODAL STYLES
