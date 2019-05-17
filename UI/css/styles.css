@@ -280,7 +280,8 @@ nav span {
 *===============================
 */
 
-.editAdvertModal {
+.editAdvertModal,
+.orderModal {
   position: fixed;
   left: 0;
   top: 0;
@@ -335,6 +336,18 @@ nav span {
   display: block;
   transform: translateY(0);
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+/*
+*==============================
+*      ORDER STYLES
+*===============================
+*/
+
+.item-action a.order {
+  background-color: #b1d4ac;
+  color: #139e00;
+  box-shadow: 1px 1px 1px 1px #139e00;
 }
 
 /*
