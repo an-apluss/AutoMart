@@ -195,6 +195,149 @@ nav span {
 }
 
 /*
+*================================
+*      my AD PAGE STYLES
+*================================
+*/
+
+.container {
+  margin: 20px;
+}
+
+.item-listings {
+  width: 70%;
+  padding-inline-start: 0;
+}
+
+.more-width {
+  width: 100%;
+}
+
+.item {
+  list-style: none;
+  width: 355px;
+  height: 425px;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 0 10px 45px 0;
+  box-shadow: 1px 1px 1px 1px #b3b3b3;
+}
+
+.item-image img {
+  width: 100%;
+}
+
+.item-heading {
+  color: #02107d;
+}
+
+.item-state, .item-status {
+  padding: 2px 7px 2px;
+  border-radius: 15px;
+  color: #ffffff;
+}
+
+.item-state {
+  background-color: rgb(255, 136, 0);
+}
+
+.item-status {
+  background-color: #cccccc;
+  float: right;
+}
+
+.item-price {
+  text-align: right;
+}
+
+.item-action a {
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.item-action a.view {
+  background-color: #b5b7ce;
+  color: #02107d;
+  box-shadow: 1px 1px 1px 1px #02107d;
+}
+
+.item-action a.edit {
+  background-color: #ffffff;
+  color: #6d6d6d;
+  box-shadow: 1px 1px 1px 1px #6d6d6d;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/*
+*==============================
+*      MODAL STYLES
+*===============================
+*/
+
+.editAdvertModal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #7d7d7d;
+  opacity: 0;
+  display: none;
+  transform: translateY(50%);
+  transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.modal-content {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%);
+  background-color: #ffffff;
+  padding: .5rem 1rem;
+  width: 30rem;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px 1px #cccccc;
+}
+
+.readonly {
+  background-color: #d0d0d0;
+}
+
+.modal-heading {
+  text-align: center;
+}
+
+.close-button {
+  float: right;
+  width: 1.5rem;
+  line-height: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  background-color: lightgray;
+  transition: background-color .9s, color .9s;
+}
+
+.close-button:hover {
+  background-color: #902222;
+  color: #fff;
+}
+
+.show-modal {
+  opacity: 1;
+  display: block;
+  transform: translateY(0);
+  transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+/*
 ================================
       Responsiveness
 ================================
