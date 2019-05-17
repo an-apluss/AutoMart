@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="ie=edge" http-equiv="X-UA-Compatible">
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Akronim" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
+  <title>Post AD | AutoMart</title>
+</head>
+
+<body>
+  <nav>
+    <span>AutoMArt</span>
+    <div class="right-side">
+      <a href="post_ad.html">Post AD</a>
+      <a class="logout" href="signin.html">Logout</a>
+    </div>
+  </nav>
+  <div class="post-ad--wrapper">
+    <div class="post-content align-center">
+      <form enctype="multipart/form-data" action="" method="post">
+        <p>
+          <input class="input-style space-bottom" type="email" name="email" id="email" placeholder="EMAIL" required>
+        </p>
+        <p>
+          <select class="input-style select-width--height space-bottom" name="state" id="state" required>
+            <option value="default">SELECT CAR STATE</option>
+            <option value="used">Used</option>
+            <option value="new">New</option>
+          </select>
+        </p>
+        <p>
+          <select class="input-style select-width--height space-bottom" name="status" id="status" required>
+            <option selected>SELECT CAR STATUS</option>
+            <option value="avalaible">Available</option>
+          </select>
+        </p>
+        <p>
+          <input class="input-style space-bottom" type="text" name="manufacturer" id="manufacturer"
+            placeholder="MANUFACTURER" required>
+        </p>
+        <p>
+          <input class="input-style space-bottom" type="text" name="price" id="price" placeholder="PRICE" required>
+        </p>
+        <p>
+          <input class="input-style space-bottom" type="text" name="model" id="model" placeholder="MODEL" required>
+        </p>
+        <p>
+          <select class="input-style select-width--height space-bottom" name="bodyType" id="bodyType" required>
+            <option value="default">SELECT BODY TYPE</option>
+            <option value="trailer">TRAILER</option>
+            <option value="car">CAR</option>
+            <option value="van">VAN</option>
+            <option value="truck">TRUCK</option>
+          </select>
+        </p>
+        <p>
+          <input class="input-style space-bottom" type="file" name="image" id="image" placeholder="BODY TYPE" required multiple>
+        </p>
+        <p>
+          <input class="button-style" type="submit" id="postAd" value="Post AD">
+        </p>
+      </form>
+    </div>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+
+</html>
