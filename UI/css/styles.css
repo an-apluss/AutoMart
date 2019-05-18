@@ -441,6 +441,37 @@ nav span {
   text-align: justify;
 }
 
+/*
+*================================
+*         Filter styles
+*================================
+*/
+
+.filter {
+  width: 28%;
+  height: 300px;
+  background-color: #ffffff;
+  position: fixed;
+  top: 85px;
+  right: 20px;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 1px 1px 1px 1px #b3b3b3;
+}
+
+.price-adjust {
+  width: 35%;
+  display: inline-block;
+}
+
+.filter input[type="submit"] {
+  background-color: #139e00;
+}
+
+.filter input[type="submit"]:hover {
+  background-color: #128802;
+  transition: background .9s;
+}
 
 /*
 ================================
@@ -499,5 +530,13 @@ nav span {
   .single-item--summary {
     position: static;
     margin: 0 0 10px 0;
+  }
+}
+
+/* filter */
+@media only screen and (max-width: 525px) {
+  .filter {
+    width: auto;
+    position: static;
   }
 }
