@@ -479,6 +479,18 @@ nav span {
   background-color: #ff0000;
 }
 
+.item-action a.delete {
+  background-color: #ffe1e1;
+  color: #ff0000;
+  box-shadow: 1px 1px 1px 1px #ff0000;
+}
+
+.item-action a.delete:hover {
+  background-color: #ff0000;
+  color: #ffe1e1;
+  transition: background-color .9s;
+}
+
 /*
 ================================
       Responsiveness
