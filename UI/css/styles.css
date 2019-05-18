@@ -373,6 +373,76 @@ nav span {
 }
 
 /*
+*===============================
+*    Car Profile page STYLES
+*===============================
+*/
+
+.single-item {
+  padding-inline-start: 0;
+  width: 100%;
+}
+
+.single-item--wrapper,
+.single-item--summary {
+  list-style: none;
+  display: inline-block;
+}
+
+.single-item--wrapper {
+  list-style: none;
+  display: inline-block;
+  width: 60%;
+  background-color: #ffffff;
+  padding: 10px;
+  box-shadow: 1px 1px 1px 1px #cccccc;
+}
+
+.single-item--summary {
+  background: #ffffff;
+  width: 35%;
+  margin-left: 0.5rem;
+  padding: 10px;
+  position: absolute;
+  box-shadow: 1px 1px 1px 1px #cccccc;
+}
+
+.single-item--image {
+  width: 100%;
+}
+
+.single-item--image > img.single-item-image--main {
+  width: 100%;
+}
+
+.single-item--image-sub {
+  width: 100%;
+  text-align: center;
+  border: 1px solid #dddddd;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.single-item--image-sub > img {
+  width: 23%;
+}
+
+.description {
+  background-color: #ffffff;
+  width: 60%;
+  padding: 10px;
+  box-shadow: 1px 1px 1px 1px #cccccc;
+  list-style: none;
+  margin-top: 10px;
+}
+
+.description > span {
+  color: #8e8e8e;
+  text-align: justify;
+}
+
+
+/*
 ================================
       Responsiveness
 ================================
@@ -413,5 +483,21 @@ nav span {
 @media only screen and (max-width: 425px) {
   #form {
     width: 300px;
+  }
+}
+
+/* car profile page */
+@media only screen and (max-width: 525px) {
+  .single-item--wrapper,
+  .single-item--summary,
+  .description {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .single-item--summary {
+    position: static;
+    margin: 0 0 10px 0;
   }
 }
