@@ -234,7 +234,8 @@ nav span {
 }
 
 .item-state, .item-status,
-.item--order-status {
+.item--order-status,
+.item-flag {
   padding: 2px 7px 2px;
   border-radius: 15px;
   color: #ffffff;
@@ -471,6 +472,11 @@ nav span {
 .filter input[type="submit"]:hover {
   background-color: #128802;
   transition: background .9s;
+}
+
+/* admin page style */
+.item-flag {
+  background-color: #ff0000;
 }
 
 /*
