@@ -23,6 +23,31 @@
     </div>
   </nav>
   <div class="container">
+    <div class="filter align-center">
+      <form action="" method="get">
+        <p>
+          <select class="input-style select-width--height space-bottom" name="state" id="state" required>
+            <option value="default">Select Car State</option>
+            <option value="used">Used</option>
+            <option value="new">New</option>
+          </select>
+        </p>
+        <p>
+          <input class="input-style space-bottom" type="text" name="manufacturer" id="manufacturer"
+            placeholder="Manufacturer" required>
+        </p>
+        <p>
+          <input class="input-style price-adjust space-bottom" type="text" name="minPrice" id="minPrice"
+            placeholder="Min Price" required>
+
+          <input class="input-style price-adjust space-bottom" type="text" name="maxPrice" id="maxPrice"
+            placeholder="Max Price" required>
+        </p>
+        <p>
+          <input class="button-style" type="submit" id="postAd" value="Filter">
+        </p>
+      </form>
+    </div>
     <h2>AVAILABLE FOR SALES</h2>
     <ul class="item-listings">
       <li class="item">
