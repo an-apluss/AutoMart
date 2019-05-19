@@ -491,6 +491,20 @@ nav span {
   transition: background-color .9s;
 }
 
+/* checkbox styles */
+.label-style {
+  padding: 10px;
+  background-color: #f9f9f9;
+  letter-spacing: .2em;
+  font-size: 18px;
+  margin-left: 38px;
+  color: #a2a2a2;
+}
+
+.text-left {
+  text-align: left;
+}
+
 /*
 ================================
       Responsiveness
