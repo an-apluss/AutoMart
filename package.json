@@ -1,0 +1,48 @@
+{
+  "name": "automart",
+  "version": "1.0.0",
+  "description": "Auto Mart is an online marketplace for automobiles of diverse makes, model or body type. With Auto Mart, users can sell their cars or buy from trusted dealerships or private sellers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node server/src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/an-apluss/AutoMart.git"
+  },
+  "keywords": [
+    "automart",
+    "online-marketplace",
+    "selling",
+    "buying",
+    "automobile"
+  ],
+  "author": "an-apluss",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/an-apluss/AutoMart/issues"
+  },
+  "homepage": "https://github.com/an-apluss/AutoMart#readme",
+  "devDependencies": {
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.13.0",
+    "nodemon": "^1.19.0",
+    "prettier": "^1.17.1"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
+    "body-parser": "^1.19.0",
+    "dotenv": "^7.0.0",
+    "express": "^4.17.0"
+  }
+}
