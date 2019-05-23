@@ -5,7 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha server/src/tests/*.js --require @babel/register --timeout 50000 --exit || true",
-    "start": "nodemon --exec babel-node server/src/index.js"
+    "start": "nodemon --exec babel-node server/src/index.js",
+    "babel-build": "babel server/src -d server/dist && node server/dist/index",
+    "clean": "rm -rf server/dist",
+    "build": "npm run clean && npm run babel-build",
+    "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
+    "coveralls-coverage": "coveralls < lcov.info",
+    "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
+    "coverage": "nyc npm run test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage"
   },
   "repository": {
     "type": "git",
@@ -27,6 +34,8 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "codeclimate-test-reporter": "^0.5.1",
+    "coveralls": "^3.0.3",
     "eslint": "^5.3.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.3.0",
@@ -34,8 +43,11 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.13.0",
+    "istanbul": "^0.4.5",
     "mocha": "^6.1.4",
+    "mocha-lcov-reporter": "^1.3.0",
     "nodemon": "^1.19.0",
+    "nyc": "^13.3.0",
     "prettier": "^1.17.1"
   },
   "dependencies": {
