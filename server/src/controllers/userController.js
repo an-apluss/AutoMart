@@ -9,4 +9,13 @@ export default class UserController {
       return next(ex);
     }
   }
+
+  static async postSignIn(req, res, next) {
+    try {
+      const response = await UserService.loginUser(req.body);
+      return res.status(response.status).send(response);
+    } catch (ex) {
+      return next(ex);
+    }
+  }
 }
