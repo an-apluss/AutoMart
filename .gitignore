@@ -63,3 +63,4 @@ typings/
 # automart build output
 server/dist
 dist/
+lcov.info
