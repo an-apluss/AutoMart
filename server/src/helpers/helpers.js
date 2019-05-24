@@ -25,8 +25,8 @@ export default class Helper {
     const token = jwt.sign(
       {
         id: user.id,
-        firstname: user.firstNname,
-        lastname: user.lastName,
+        firstName: user.firstName,
+        lastName: user.lastName,
         isAdmin: user.isAdmin,
         email: user.email
       },
@@ -59,6 +59,19 @@ export default class Helper {
         .email({ minDomainSegments: 2 })
         .required(),
       address: Joi.string().required()
+    };
+    return Joi.validate(user, schema);
+  }
+
+  static validateSignin(user) {
+    const schema = {
+      email: Joi.string()
+        .email({ minDomainSegments: 2 })
+        .required(),
+      password: Joi.string()
+        .alphanum()
+        .min(6)
+        .required()
     };
     return Joi.validate(user, schema);
   }

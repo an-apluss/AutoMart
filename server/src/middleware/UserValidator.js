@@ -1,7 +1,7 @@
 import Helper from '../helpers/helpers';
 import storage from '../models/dummydata';
 
-const { validateSignup, notAlpha } = Helper;
+const { validateSignup, validateSignin, notAlpha } = Helper;
 const { users } = storage;
 
 export default class UserValidator {
@@ -40,6 +40,18 @@ export default class UserValidator {
         success: false
       });
     }
+
+    return next();
+  }
+
+  static signinCheck(req, res, next) {
+    const { error } = validateSignin(req.body);
+    if (error)
+      return res.status(422).json({
+        status: 422,
+        error: error.details[0].message,
+        success: false
+      });
 
     return next();
   }

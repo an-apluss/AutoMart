@@ -2,7 +2,7 @@ import Helper from '../helpers/helpers';
 import storage from '../models/dummydata';
 import User from '../models/userModel';
 
-const { generateId, hashPassword, generateToken } = Helper;
+const { generateId, hashPassword, generateToken, compareHashedPassword } = Helper;
 const { users } = storage;
 
 export default class UserService {
@@ -22,10 +22,41 @@ export default class UserService {
         id,
         first_name: firstName,
         last_name: lastName,
-        email,
-        isAdmin
+        email
       },
       success: true
+    };
+  }
+
+  static async loginUser(userData) {
+    const userExist = users.find(user => user.email === userData.email);
+
+    if (!userExist)
+      return {
+        status: 401,
+        error: 'Authentication Failed. Incorrect Login Credentials',
+        success: false
+      };
+
+    const existPassword = await compareHashedPassword(userData.password, userExist.password);
+
+    if (existPassword)
+      return {
+        status: 200,
+        data: {
+          token: generateToken(userExist),
+          id: userExist.id,
+          first_name: userExist.first_name,
+          last_name: userExist.last_name,
+          email: userExist.email
+        },
+        success: true
+      };
+
+    return {
+      status: 401,
+      error: 'Authentication Failed. Incorrect Login Credentials',
+      success: false
     };
   }
 }
