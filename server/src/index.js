@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import 'dotenv/config';
 
 import userRoute from './routes/userRoute';
+import carRoute from './routes/carRoute';
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/auth', userRoute);
+app.use('/api/v1', carRoute);
 
 app.use((req, res, next) => {
   const error = new Error('Route Does not Exist');
@@ -26,12 +28,9 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  res.status(error.status || 500);
-  res.json({
-    status: error.status || 500,
-    success: false,
-    error: error.message
-  });
+  res
+    .status(error.status || 500)
+    .json({ status: error.status || 500, success: false, error: error.message });
   next();
 });
 
