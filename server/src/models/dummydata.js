@@ -9,6 +9,22 @@ const storage = {
       address: '25, olaosebikan street, Agbado, Lagos',
       isAdmin: true
     }
+  ],
+  cars: [
+    {
+      id: 1,
+      owner: 1,
+      createdOn: '2019/05/25/ 13:30:30',
+      state: 'used',
+      status: 'available',
+      price: 1759999.99,
+      manufacturer: 'bmw',
+      model: 'BMW 3 Series 320d 2014',
+      bodyType: 'car',
+      imageId: 'showcase',
+      imageUrl:
+        'https://res.cloudinary.com/an-apluss/image/upload/v1558788050/AutoMart/showcase.jpg'
+    }
   ]
 };
 
