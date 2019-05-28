@@ -435,6 +435,19 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
+    it('should return error if provided :carId does not exist', done => {
+      chai
+        .request(server)
+        .patch('/api/v1/car/1000000000000000000000000000000000000/price')
+        .send({ price: 1777777 })
+        .end((err, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(403);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
     it('should return error if provided value for price is non-numeric', done => {
       chai
         .request(server)

@@ -116,6 +116,15 @@ export default class Helper {
     return Joi.validate(status, schema);
   }
 
+  static validateCarPrice(price) {
+    const schema = {
+      price: Joi.number()
+        .positive()
+        .required()
+    };
+    return Joi.validate(price, schema);
+  }
+
   static isWholeNumber(value) {
     const pattern = /^[0-9]+$/;
     if (pattern.test(value) === true) return true;
