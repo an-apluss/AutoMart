@@ -2,6 +2,7 @@ import 'dotenv/config';
 import Joi from '@hapi/joi';
 import bycrpt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import cloud from 'cloudinary';
 
 export default class Helper {
   static generateId(data) {
@@ -74,5 +75,37 @@ export default class Helper {
         .required()
     };
     return Joi.validate(user, schema);
+  }
+
+  static validateCarAdvert(data) {
+    const schema = {
+      email: Joi.string()
+        .email({ minDomainSegments: 2 })
+        .required(),
+      state: Joi.string().required(),
+      price: Joi.number()
+        .positive()
+        .required(),
+      manufacturer: Joi.string().required(),
+      model: Joi.string().required(),
+      bodyType: Joi.string().required()
+    };
+
+    return Joi.validate(data, schema);
+  }
+
+  static async cloudinaryUpload(image, tag) {
+    const cloudinary = cloud.v2;
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_ID,
+      api_secret: process.env.API_SECRET
+    });
+
+    const result = await cloudinary.uploader.upload(image, {
+      tags: tag,
+      resource_type: 'auto'
+    });
+    return result;
   }
 }
