@@ -9,4 +9,13 @@ export default class CarController {
       return next(ex);
     }
   }
+
+  static updateStatus(req, res, next) {
+    try {
+      const response = CarService.updateCarStatus(req.params.carId, req.body.status);
+      return res.status(response.status).send(response);
+    } catch (ex) {
+      return next(ex);
+    }
+  }
 }

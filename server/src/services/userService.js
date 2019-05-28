@@ -1,4 +1,3 @@
-
 import Helper from '../helpers/helpers';
 import storage from '../models/dummydata';
 import User from '../models/userModel';
@@ -61,8 +60,18 @@ export default class UserService {
     };
   }
 
-  static findUserByEmail(emailSearch) {
-    const userExist = users.find(user => user.email === emailSearch);
+  static findUserByEmail(userEmail) {
+    const userExist = users.find(user => user.email === userEmail);
+
+    if (!userExist) return false;
+
+    const { id, email, first_name, last_name, password, address, isAdmin } = userExist;
+
+    return { id, email, first_name, last_name, password, address, isAdmin };
+  }
+
+  static findUserById(userId) {
+    const userExist = users.find(user => user.id === parseInt(userId, 10));
 
     if (!userExist) return false;
 

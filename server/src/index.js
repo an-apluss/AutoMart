@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/v1/auth', userRoute);
-app.use('/api/v1', carRoute);
+app.use('/api/v1/car', carRoute);
 
 app.use((req, res, next) => {
   const error = new Error('Route Does not Exist');

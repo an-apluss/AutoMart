@@ -108,4 +108,17 @@ export default class Helper {
     });
     return result;
   }
+
+  static validateCarStatus(status) {
+    const schema = {
+      status: Joi.string().required()
+    };
+    return Joi.validate(status, schema);
+  }
+
+  static isWholeNumber(value) {
+    const pattern = /^[0-9]+$/;
+    if (pattern.test(value) === true) return true;
+    return false;
+  }
 }

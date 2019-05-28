@@ -1,6 +1,6 @@
 import Helper from '../helpers/helpers';
 
-const { validateCarAdvert } = Helper;
+const { validateCarAdvert, validateCarStatus, notAlpha, isWholeNumber } = Helper;
 
 export default class CarValidator {
   static checkCarPostAd(req, res, next) {
@@ -12,6 +12,29 @@ export default class CarValidator {
       return res
         .status(422)
         .json({ status: 422, error: 'Car state can only be used or new', success: false });
+
+    return next();
+  }
+
+  static checkCarStatusUpdate(req, res, next) {
+    if (!isWholeNumber(req.params.carId))
+      return res
+        .status(403)
+        .json({ status: 403, error: 'Car id must be whole number', success: false });
+
+    const { error } = validateCarStatus(req.body);
+    if (error)
+      return res.status(422).json({ status: 422, error: error.details[0].message, success: false });
+
+    if (notAlpha(req.body.status))
+      return res
+        .status(422)
+        .json({ status: 422, error: 'Status can only be string', success: false });
+
+    if (req.body.status.toLowerCase() !== 'sold')
+      return res
+        .status(422)
+        .json({ status: 422, error: 'Status can only be sold', success: false });
 
     return next();
   }
