@@ -18,4 +18,13 @@ export default class CarController {
       return next(ex);
     }
   }
+
+  static updatePrice(req, res, next) {
+    try {
+      const response = CarService.updateCarPrice(req.params.carId, req.body.price);
+      return res.status(response.status).send(response);
+    } catch (ex) {
+      return next(ex);
+    }
+  }
 }

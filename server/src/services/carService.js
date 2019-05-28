@@ -73,4 +73,26 @@ export default class CarService {
       success: true
     };
   }
+
+  static updateCarPrice(id, newPrice) {
+    const carExist = cars.find(car => car.id === parseInt(id, 10));
+    if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
+    const { email } = UserService.findUserById(carExist.id);
+    carExist.price = parseFloat(newPrice).toFixed(2);
+    const { created_on, manufacturer, model, price, state, status } = carExist;
+    return {
+      status: 202,
+      data: {
+        id,
+        email,
+        created_on,
+        manufacturer,
+        model,
+        price,
+        state,
+        status
+      },
+      success: true
+    };
+  }
 }
