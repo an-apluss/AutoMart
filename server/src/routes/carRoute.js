@@ -6,9 +6,10 @@ import CarValidator from '../middleware/CarValidator';
 
 const carRoute = express.Router();
 
-const { postCarAd } = CarController;
-const { checkCarPostAd } = CarValidator;
+const { postCarAd, updateStatus } = CarController;
+const { checkCarPostAd, checkCarStatusUpdate } = CarValidator;
 
-carRoute.post('/car', upload.single('image'), checkCarPostAd, postCarAd);
+carRoute.post('/', upload.single('image'), checkCarPostAd, postCarAd);
+carRoute.patch('/:carId/status', checkCarStatusUpdate, updateStatus);
 
 export default carRoute;
