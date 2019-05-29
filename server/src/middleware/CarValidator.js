@@ -51,4 +51,13 @@ export default class CarValidator {
 
     return next();
   }
+
+  static checkSpecificCar(req, res, next) {
+    if (!isWholeNumber(req.params.carId))
+      return res
+        .status(403)
+        .json({ status: 403, error: 'Car id must be whole number', success: false });
+
+    return next();
+  }
 }

@@ -19,7 +19,7 @@ export default class CarService {
       };
 
     const id = generateId(cars);
-    const uploadedImage = await cloudinaryUpload(carImage, 'automart');
+    const { url, public_id } = await cloudinaryUpload(carImage, 'automart');
     const priceConvert = parseFloat(price).toFixed(2);
     const newCarPostAd = new Car(
       id,
@@ -29,8 +29,8 @@ export default class CarService {
       manufacturer,
       model,
       bodyType,
-      uploadedImage.public_id,
-      uploadedImage.url
+      public_id,
+      url
     );
 
     const { created_on, status } = newCarPostAd;
@@ -91,6 +91,39 @@ export default class CarService {
         price,
         state,
         status
+      },
+      success: true
+    };
+  }
+
+  static fetchOneCar(carId) {
+    const carExist = cars.find(car => car.id === parseInt(carId, 10));
+    if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
+
+    const {
+      id,
+      owner,
+      created_on,
+      state,
+      status,
+      price,
+      manufacturer,
+      model,
+      body_type
+    } = carExist;
+
+    return {
+      status: 200,
+      data: {
+        id,
+        owner,
+        created_on,
+        state,
+        status,
+        price,
+        manufacturer,
+        model,
+        body_type
       },
       success: true
     };
