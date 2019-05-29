@@ -585,16 +585,27 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
-    it('should return error if there is no car status value that reads available', done => {
+    it('should return error if status is empty', done => {
       chai
         .request(server)
-        .get('/api/v1/car?status=available')
+        .get('/api/v1/car?status=')
         .end((er, res) => {
           res.body.should.be.an('object');
-          res.body.should.have.keys('status', 'success', 'data');
-          res.body.status.should.be.eql(200);
-          res.body.success.should.be.eql(true);
-          res.body.data.should.be.eql('No car is available for sale');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(403);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
+    it('should return error if status is non-alphabeltic', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car?status=12')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(403);
+          res.body.success.should.be.eql(false);
           done();
         });
     });

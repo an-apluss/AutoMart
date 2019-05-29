@@ -36,4 +36,13 @@ export default class CarController {
       return next(ex);
     }
   }
+
+  static getCars(req, res, next) {
+    try {
+      const response = CarService.fetchCars(req.query.status);
+      return res.status(response.status).send(response);
+    } catch (ex) {
+      return next(ex);
+    }
+  }
 }

@@ -128,4 +128,32 @@ export default class CarService {
       success: true
     };
   }
+
+  static fetchCars(status) {
+    if (status !== 'available') {
+      return { status: 403, error: `Status can only be 'available'`, success: false };
+    }
+
+    const carExists = cars.filter(car => car.status === status);
+    if (carExists) {
+      const data = carExists.map(carExist => {
+        const mappedresult = {
+          id: carExist.id,
+          owner: carExist.owner,
+          created_on: carExist.created_on,
+          state: carExist.state,
+          status: carExist.status,
+          price: carExist.price,
+          manufacturer: carExist.manufacturer,
+          model: carExist.model,
+          body_type: carExist.body_type
+        };
+        return mappedresult;
+      });
+
+      return { status: 200, data, success: true };
+    }
+
+    return { status: 200, data: 'No car is available for sale', success: true };
+  }
 }
