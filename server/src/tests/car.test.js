@@ -524,6 +524,18 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
+    it('should return error if provided :carId is doesnot exist', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car/10000000000000000000000000000000000000000000000000000')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(403);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
     it('should return error if provided :carId is negative numeric', done => {
       chai
         .request(server)

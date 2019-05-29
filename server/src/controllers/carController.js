@@ -27,4 +27,13 @@ export default class CarController {
       return next(ex);
     }
   }
+
+  static getOneCar(req, res, next) {
+    try {
+      const response = CarService.fetchOneCar(req.params.carId);
+      return res.status(response.status).send(response);
+    } catch (ex) {
+      return next(ex);
+    }
+  }
 }

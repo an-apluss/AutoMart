@@ -20,7 +20,7 @@ const storage = {
       price: 1759999.99,
       manufacturer: 'bmw',
       model: 'BMW 3 Series 320d 2014',
-      bodyType: 'car',
+      body_type: 'car',
       imageId: 'showcase',
       imageUrl:
         'https://res.cloudinary.com/an-apluss/image/upload/v1558788050/AutoMart/showcase.jpg'
