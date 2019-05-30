@@ -6,7 +6,7 @@ import CarValidator from '../middleware/CarValidator';
 
 const carRoute = express.Router();
 
-const { postCarAd, updateStatus, updatePrice, getOneCar, getCars } = CarController;
+const { postCarAd, updateStatus, updatePrice, getOneCar, getCars, deleteOneCar } = CarController;
 
 const {
   checkCarPostAd,
@@ -20,5 +20,6 @@ carRoute.patch('/:carId/status', checkCarStatusUpdate, updateStatus);
 carRoute.patch('/:carId/price', checkCarPriceUpdate, updatePrice);
 carRoute.get('/:carId', checkSpecificCar, getOneCar);
 carRoute.get('/', getCars);
+carRoute.delete('/:carId', checkSpecificCar, deleteOneCar);
 
 export default carRoute;

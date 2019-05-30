@@ -64,4 +64,13 @@ export default class CarController {
       return next(ex);
     }
   }
+
+  static deleteOneCar(req, res, next) {
+    try {
+      const response = CarService.removeOneCar(req.params.carId);
+      return res.status(response.status).send(response);
+    } catch (ex) {
+      return next(ex);
+    }
+  }
 }

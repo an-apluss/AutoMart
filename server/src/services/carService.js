@@ -3,7 +3,7 @@ import storage from '../models/dummydata';
 import Car from '../models/carModel';
 import UserService from './userService';
 
-const { generateId, cloudinaryUpload, validateUnsoldCarWithOptions } = Helper;
+const { generateId, cloudinaryUpload, validateUnsoldCarWithOptions, isWholeNumber } = Helper;
 const { cars } = storage;
 
 export default class CarService {
@@ -210,5 +210,16 @@ export default class CarService {
       data: `Car within the between ${min_price} and ${max_price} are currently unavailable`,
       success: true
     };
+  }
+
+  static removeOneCar(carId) {
+    const carExist = cars.find(car => car.id === parseInt(carId, 10));
+
+    if (!carExist) return { status: 403, error: 'Provided car id cannot be found', success: false };
+
+    const index = cars.indexOf(carExist);
+    cars.splice(index, 1);
+
+    return { status: 200, data: 'Car Ad successfully deleted', success: true };
   }
 }

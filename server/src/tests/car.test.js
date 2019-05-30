@@ -658,6 +658,30 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
+    it('should return error if provided value for status is available', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car?status=blue&min_price=mee1&max_price=1900000')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(403);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
+    it('should return error if status is not among the query string ', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car?color=blue&min_price=mee1&max_price=1900000')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(403);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
     it('should return error if provided value for min_price is empty', done => {
       chai
         .request(server)
@@ -740,15 +764,15 @@ describe('Test Suite For Car Endpoints', () => {
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
-          res.body.status.should.be.eql(422);
+          res.body.status.should.be.eql(403);
           res.body.success.should.be.eql(false);
           done();
         });
     });
-    it('should return error if carId is does not exist', done => {
+    it('should return error if carId does not exist', done => {
       chai
         .request(server)
-        .delete('/api/v1/car/1000.32')
+        .delete('/api/v1/car/100000000000000000000000000000000000000')
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
