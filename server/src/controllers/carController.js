@@ -39,8 +39,27 @@ export default class CarController {
 
   static getCars(req, res, next) {
     try {
-      const response = CarService.fetchCars(req.query.status);
-      return res.status(response.status).send(response);
+      const queryLength = Object.keys(req.query).length;
+      if (queryLength >= 0) {
+        let response;
+        switch (queryLength) {
+          case 1:
+            response = CarService.fetchCars(req.query);
+            return res.status(response.status).send(response);
+          case 3:
+            response = CarService.fetchCarWithOptions(req.query);
+            return res.status(response.status).send(response);
+          default:
+            return res.status(403).json({
+              status: 403,
+              error: 'Invalid input. Provide appropriate option',
+              success: false
+            });
+        }
+      }
+      return res
+        .status(403)
+        .json({ status: 403, error: 'Invalid input. Provide appropriate option', success: false });
     } catch (ex) {
       return next(ex);
     }

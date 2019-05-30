@@ -130,4 +130,18 @@ export default class Helper {
     if (pattern.test(value) === true) return true;
     return false;
   }
+
+  static validateUnsoldCarWithOptions(options) {
+    const schema = {
+      status: Joi.string(),
+      min_price: Joi.number()
+        .positive()
+        .required(),
+      max_price: Joi.number()
+        .positive()
+        .required()
+    };
+
+    return Joi.validate(options, schema);
+  }
 }
