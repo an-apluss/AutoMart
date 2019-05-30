@@ -52,6 +52,20 @@ const storage = {
       imageId: 'showcase',
       imageUrl:
         'https://res.cloudinary.com/an-apluss/image/upload/v1558788050/AutoMart/showcase.jpg'
+    },
+    {
+      id: 4,
+      owner: 1,
+      created_on: '2019/05/25/ 13:30:30',
+      state: 'new',
+      status: 'available',
+      price: '2500000.00',
+      manufacturer: 'bmw',
+      model: 'BMW 3 Series 320d 2017',
+      body_type: 'car',
+      imageId: 'showcase',
+      imageUrl:
+        'https://res.cloudinary.com/an-apluss/image/upload/v1558788050/AutoMart/showcase.jpg'
     }
   ]
 };

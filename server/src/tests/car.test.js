@@ -585,6 +585,18 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
+    it('should return message if car status that read available is not on the platform', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car?status=available')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'data');
+          res.body.status.should.be.eql(200);
+          res.body.success.should.be.eql(true);
+          done();
+        });
+    });
     it('should return error if status is empty', done => {
       chai
         .request(server)
@@ -634,19 +646,6 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
-    it("should return message if car Ad which status value reads available between the range of specific prices doesn't exist", done => {
-      chai
-        .request(server)
-        .get('/api/v1/car?status=available&min_price=1700000&max_price=1900000')
-        .end((er, res) => {
-          res.body.should.be.an('object');
-          res.body.should.have.keys('status', 'success', 'data');
-          res.body.status.should.be.eql(200);
-          res.body.success.should.be.eql(true);
-          res.body.data.should.be.eql('Car within the specified range cannot be found');
-          done();
-        });
-    });
     it('should return error if provided value for min_price is non-numeric', done => {
       chai
         .request(server)
@@ -654,7 +653,7 @@ describe('Test Suite For Car Endpoints', () => {
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
-          res.body.status.should.be.eql(422);
+          res.body.status.should.be.eql(403);
           res.body.success.should.be.eql(false);
           done();
         });
@@ -666,7 +665,7 @@ describe('Test Suite For Car Endpoints', () => {
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
-          res.body.status.should.be.eql(422);
+          res.body.status.should.be.eql(403);
           res.body.success.should.be.eql(false);
           done();
         });
@@ -678,7 +677,7 @@ describe('Test Suite For Car Endpoints', () => {
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
-          res.body.status.should.be.eql(422);
+          res.body.status.should.be.eql(403);
           res.body.success.should.be.eql(false);
           done();
         });
@@ -690,7 +689,7 @@ describe('Test Suite For Car Endpoints', () => {
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
-          res.body.status.should.be.eql(422);
+          res.body.status.should.be.eql(403);
           res.body.success.should.be.eql(false);
           done();
         });
@@ -702,7 +701,19 @@ describe('Test Suite For Car Endpoints', () => {
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
-          res.body.status.should.be.eql(422);
+          res.body.status.should.be.eql(403);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
+    it('should return error if provided value for min_price is greater or equal to max_price', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car?status=available&min_price=1900000&max_price=1700000')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(403);
           res.body.success.should.be.eql(false);
           done();
         });
