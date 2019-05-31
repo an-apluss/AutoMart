@@ -3,7 +3,7 @@ import storage from '../models/dummydata';
 import Car from '../models/carModel';
 import UserService from './userService';
 
-const { generateId, cloudinaryUpload, validateUnsoldCarWithOptions, isWholeNumber } = Helper;
+const { generateId, cloudinaryUpload, validateUnsoldCarWithOptions } = Helper;
 const { cars } = storage;
 
 export default class CarService {
@@ -221,5 +221,28 @@ export default class CarService {
     cars.splice(index, 1);
 
     return { status: 200, data: 'Car Ad successfully deleted', success: true };
+  }
+
+  static fetchAllCars() {
+    let data;
+    if (cars) {
+      data = cars.map(car => {
+        return {
+          id: car.id,
+          owner: car.owner,
+          created_on: car.created_on,
+          state: car.state,
+          status: car.status,
+          price: car.price,
+          manufacturer: car.manufacturer,
+          model: car.model,
+          body_type: car.body_type
+        };
+      });
+    }
+
+    if (data.length > 0) return { status: 200, data, success: true };
+
+    return { status: 200, data: 'No car is currently on the platform', success: true };
   }
 }

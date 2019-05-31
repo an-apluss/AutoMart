@@ -17,8 +17,17 @@ describe('Test Suite For Entry File Endpoints', () => {
         .get('/')
         .end((err, res) => {
           res.body.status.should.be.eql(200);
-          res.body.message.should.be.eql('AutoMart says, Welcome!');
+          res.body.data.should.be.eql('AutoMart says, Welcome!');
           done();
+        });
+    });
+    it('should return error if route does not exist', () => {
+      chai
+        .request(server)
+        .get('/api/v1/nonexistingroute')
+        .end((err, res) => {
+          res.body.status.should.be.eql(404);
+          res.body.error.should.be.eql('Route Does not Exist');
         });
     });
   });

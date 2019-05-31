@@ -806,18 +806,5 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
-    it('should return error if there is no car to view', done => {
-      chai
-        .request(server)
-        .get('/api/v1/car')
-        .end((er, res) => {
-          res.body.should.be.an('object');
-          res.body.should.have.keys('status', 'success', 'data');
-          res.body.status.should.be.eql(200);
-          res.body.success.should.be.eql(true);
-          res.body.data.should.be.eql('No car is found');
-          done();
-        });
-    });
   });
 });
