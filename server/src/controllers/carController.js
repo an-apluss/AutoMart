@@ -43,6 +43,9 @@ export default class CarController {
       if (queryLength >= 0) {
         let response;
         switch (queryLength) {
+          case 0:
+            response = CarService.fetchAllCars();
+            return res.status(response.status).send(response);
           case 1:
             response = CarService.fetchCars(req.query);
             return res.status(response.status).send(response);

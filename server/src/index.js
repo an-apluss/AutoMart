@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const PORT = process.env.PORT || 7030;
 
 app.get('/', (req, res) => {
-  return res.status(200).json({ status: 200, message: 'AutoMart says, Welcome!' });
+  return res.status(200).json({ status: 200, data: 'AutoMart says, Welcome!', success: true });
 });
 
 app.use('/api/v1/auth', userRoute);
