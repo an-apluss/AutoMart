@@ -8,6 +8,15 @@ const storage = {
       password: '$2b$10$iNkZIHC8.O2.IMttA3scg.ijA2ujMR3NJyM4.Oouo.AE06X0eK3LK',
       address: '25, olaosebikan street, Agbado, Lagos',
       isAdmin: true
+    },
+    {
+      id: 2,
+      email: 'taiwoakin@gmail.com',
+      first_name: 'taiwo',
+      last_name: 'akin',
+      password: '$2b$10$iNkZIHC8.O2.IMttA3scg.ijA2ujMR3NJyM4.Oouo.AE06X0eK3LK',
+      address: '2, surulere street, Nodopassyourself, Lagos',
+      isAdmin: false
     }
   ],
   cars: [
@@ -66,6 +75,15 @@ const storage = {
       imageId: 'showcase',
       imageUrl:
         'https://res.cloudinary.com/an-apluss/image/upload/v1558788050/AutoMart/showcase.jpg'
+    }
+  ],
+  orders: [
+    {
+      id: 1,
+      buyer: 2,
+      car_id: 1,
+      amount: '1750000.00',
+      status: 'pending'
     }
   ]
 };
