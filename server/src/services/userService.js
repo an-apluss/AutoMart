@@ -15,13 +15,15 @@ export default class UserService {
     const newUser = new User(id, email, firstName, lastName, hashedPassword, address, isAdmin);
     users.push(newUser);
 
+    const { first_name, last_name } = newUser;
+
     return {
       status: 201,
       data: {
         token: generateToken(newUser),
         id,
-        first_name: firstName,
-        last_name: lastName,
+        first_name,
+        last_name,
         email
       },
       success: true
@@ -38,17 +40,18 @@ export default class UserService {
         success: false
       };
 
-    const existPassword = await compareHashedPassword(userData.password, userExist.password);
+    const { id, first_name, last_name, email, password } = userExist;
+    const existPassword = await compareHashedPassword(userData.password, password);
 
     if (existPassword)
       return {
         status: 200,
         data: {
           token: generateToken(userExist),
-          id: userExist.id,
-          first_name: userExist.first_name,
-          last_name: userExist.last_name,
-          email: userExist.email
+          id,
+          first_name,
+          last_name,
+          email
         },
         success: true
       };
