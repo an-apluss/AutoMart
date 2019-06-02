@@ -245,4 +245,10 @@ export default class CarService {
 
     return { status: 200, data: 'No car is currently on the platform', success: true };
   }
+
+  static fetchCarById(carId) {
+    const carExist = cars.find(car => car.id === parseInt(carId, 10));
+    if (carExist) return carExist;
+    return false;
+  }
 }

@@ -6,6 +6,7 @@ import 'dotenv/config';
 
 import userRoute from './routes/userRoute';
 import carRoute from './routes/carRoute';
+import orderRoute from './routes/orderRoute';
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/auth', userRoute);
 app.use('/api/v1/car', carRoute);
+app.use('/api/v1/order', orderRoute);
 
 app.use((req, res, next) => {
   const error = new Error('Route Does not Exist');

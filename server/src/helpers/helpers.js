@@ -144,4 +144,16 @@ export default class Helper {
 
     return Joi.validate(options, schema);
   }
+
+  static validatePurchaseOrder(orderData) {
+    const schema = {
+      email: Joi.string()
+        .email({ minDomainSegments: 2 })
+        .required(),
+      carId: Joi.number().required(),
+      amount: Joi.number().required()
+    };
+
+    return Joi.validate(orderData, schema);
+  }
 }

@@ -82,6 +82,7 @@ const storage = {
       id: 1,
       buyer: 2,
       car_id: 1,
+      created_on: '2019-06-01T22:18:29.600Z',
       amount: '1750000.00',
       status: 'pending'
     }
