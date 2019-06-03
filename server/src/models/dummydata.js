@@ -94,6 +94,15 @@ const storage = {
       amount: '1750000.00',
       status: 'accepted'
     }
+  ],
+  flags: [
+    {
+      id: 1,
+      car_id: 2,
+      created_on: '2019-06-03T09:40:29.600Z',
+      reason: 'pricing',
+      description: 'The price is too high'
+    }
   ]
 };
 

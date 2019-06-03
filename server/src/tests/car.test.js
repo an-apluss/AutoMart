@@ -807,4 +807,54 @@ describe('Test Suite For Car Endpoints', () => {
         });
     });
   });
+  describe('GET /api/v1/car?status=available&state=new', () => {
+    it('should view all cars Ad that is unsold and new', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car?status=available&state=new')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'data');
+          res.body.status.should.be.eql(200);
+          res.body.success.should.be.eql(true);
+          res.body.data[0].should.have.keys(
+            'id',
+            'owner',
+            'created_on',
+            'state',
+            'status',
+            'price',
+            'manufacturer',
+            'model',
+            'body_type'
+          );
+          done();
+        });
+    });
+  });
+  describe('GET /api/v1/car?status=available&state=used', () => {
+    it('should view all cars Ad that is unsold and used', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car?status=available&state=used')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'data');
+          res.body.status.should.be.eql(200);
+          res.body.success.should.be.eql(true);
+          res.body.data[0].should.have.keys(
+            'id',
+            'owner',
+            'created_on',
+            'state',
+            'status',
+            'price',
+            'manufacturer',
+            'model',
+            'body_type'
+          );
+          done();
+        });
+    });
+  });
 });
