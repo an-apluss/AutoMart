@@ -16,9 +16,9 @@ describe('Test Suite For User(sign up and sign in) Endpoints', () => {
         .request(server)
         .post('/api/v1/auth/signup')
         .send({
-          email: 'anuakin@gmail.com',
-          firstName: 'anu',
-          lastName: 'akin',
+          email: 'acoolguy@gmail.com',
+          firstName: 'john',
+          lastName: 'doe',
           password: 'secret',
           address: '25, olaosebikan street, Agbado, Lagos'
         })
@@ -269,7 +269,7 @@ describe('Test Suite For User(sign up and sign in) Endpoints', () => {
         .request(server)
         .post('/api/v1/auth/signin')
         .send({
-          email: 'anuakin@gmail.com',
+          email: 'anuoluwapoakinseye@gmail.com',
           password: 'secret'
         })
         .end((err, res) => {
