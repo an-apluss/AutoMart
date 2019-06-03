@@ -85,6 +85,14 @@ const storage = {
       created_on: '2019-06-01T22:18:29.600Z',
       amount: '1750000.00',
       status: 'pending'
+    },
+    {
+      id: 2,
+      buyer: 2,
+      car_id: 3,
+      created_on: '2019-06-01T22:18:29.600Z',
+      amount: '1750000.00',
+      status: 'accepted'
     }
   ]
 };

@@ -16,8 +16,8 @@ describe('Test Suite For Order Endpoints', () => {
         .request(server)
         .post('/api/v1/order')
         .send({
-          email: 'anuoluwapoakinseye@gmail.com',
-          carId: 1,
+          email: 'taiwoakin@gmail.com',
+          carId: 2,
           amount: 1750000
         })
         .end((err, res) => {
@@ -206,6 +206,19 @@ describe('Test Suite For Order Endpoints', () => {
             'old_price_offered',
             'new_price_offered'
           );
+          done();
+        });
+    });
+    it('should return error if purchase order status is not pending', done => {
+      chai
+        .request(server)
+        .patch('/api/v1/order/2/price')
+        .send({ price: 1755000 })
+        .end((err, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'error', 'success');
+          res.body.status.should.be.eql(403);
+          res.body.success.should.be.eql(false);
           done();
         });
     });

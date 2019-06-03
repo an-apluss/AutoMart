@@ -39,4 +39,34 @@ export default class OrderService {
       success: true
     };
   }
+
+  static updatePrice(orderId, newPriceOffer) {
+    const orderExist = orders.find(order => order.id === parseInt(orderId, 10));
+
+    if (!orderExist) return { status: 403, error: 'Order id does not exist', success: false };
+
+    if (orderExist.status.toLowerCase() !== 'pending')
+      return {
+        status: 403,
+        error: 'Order cannot be updated. Order status is not pending',
+        success: false
+      };
+
+    const old_price_offered = orderExist.amount;
+
+    orderExist.amount = parseFloat(newPriceOffer).toFixed(2);
+    const { id, car_id, status, amount } = orderExist;
+
+    return {
+      status: 202,
+      data: {
+        id,
+        car_id,
+        status,
+        old_price_offered,
+        new_price_offered: amount
+      },
+      success: true
+    };
+  }
 }

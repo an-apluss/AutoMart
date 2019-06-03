@@ -156,4 +156,12 @@ export default class Helper {
 
     return Joi.validate(orderData, schema);
   }
+
+  static validateUpdateOrderPrice(price) {
+    const schema = {
+      price: Joi.number().required()
+    };
+
+    return Joi.validate(price, schema);
+  }
 }
