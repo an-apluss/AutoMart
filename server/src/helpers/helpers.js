@@ -164,4 +164,16 @@ export default class Helper {
 
     return Joi.validate(price, schema);
   }
+
+  static validateFlagData(data) {
+    const schema = {
+      carId: Joi.number()
+        .positive()
+        .required(),
+      reason: Joi.string().required(),
+      description: Joi.string().required()
+    };
+
+    return Joi.validate(data, schema);
+  }
 }
