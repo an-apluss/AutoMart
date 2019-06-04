@@ -831,6 +831,54 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
+    it('should error if status is not available', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car?status=randomalphabelt&state=new')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(403);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
+    it('should error if status is not undefined', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car?month=jun&state=new')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(403);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
+    it('should error if state is not new', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car?status=available&state=randomalphabelt')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(403);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
+    it('should error if state is not undefined', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car?status=available&days=monday')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(403);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
   });
   describe('GET /api/v1/car?status=available&state=used', () => {
     it('should view all cars Ad that is unsold and used', done => {
