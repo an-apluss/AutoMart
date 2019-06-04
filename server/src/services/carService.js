@@ -253,22 +253,37 @@ export default class CarService {
   }
 
   static fetchCarWithState(paramsData) {
-    const { status, state } = paramsData;
+    let { status, state } = paramsData;
 
     if (typeof status === 'undefined')
       return { status: 403, error: 'Status is required', success: false };
 
-    if (status !== 'available')
-      return { status: 403, error: 'Status can only be available', success: false };
-
     if (typeof state === 'undefined')
       return { status: 403, error: 'State is required', success: false };
 
-    if (state !== 'new') return { status: 403, error: 'State can only be new', success: false };
+    status = status.toLowerCase();
+    state = state.toLowerCase();
+
+    if (status !== 'available')
+      return { status: 403, error: 'Status can only be available', success: false };
+
+    if (state !== 'new' && state !== 'used')
+      return { status: 403, error: 'State can only be new or used', success: false };
+
+    // eslint-disable-next-line default-case
+    switch (state) {
+      case 'new':
+        state = 'new';
+        break;
+      case 'used':
+        state = 'used';
+        break;
+    }
 
     const carExists = cars.filter(car => car.status === status && car.state === state);
 
     let data;
+
     if (carExists) {
       data = carExists.map(carExist => {
         const mappedresult = {

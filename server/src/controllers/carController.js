@@ -10,50 +10,50 @@ export default class CarController {
     }
   }
 
-  static updateStatus(req, res, next) {
+  static async updateStatus(req, res, next) {
     try {
-      const response = CarService.updateCarStatus(req.params.carId, req.body.status);
+      const response = await CarService.updateCarStatus(req.params.carId, req.body.status);
       return res.status(response.status).send(response);
     } catch (ex) {
       return next(ex);
     }
   }
 
-  static updatePrice(req, res, next) {
+  static async updatePrice(req, res, next) {
     try {
-      const response = CarService.updateCarPrice(req.params.carId, req.body.price);
+      const response = await CarService.updateCarPrice(req.params.carId, req.body.price);
       return res.status(response.status).send(response);
     } catch (ex) {
       return next(ex);
     }
   }
 
-  static getOneCar(req, res, next) {
+  static async getOneCar(req, res, next) {
     try {
-      const response = CarService.fetchOneCar(req.params.carId);
+      const response = await CarService.fetchOneCar(req.params.carId);
       return res.status(response.status).send(response);
     } catch (ex) {
       return next(ex);
     }
   }
 
-  static getCars(req, res, next) {
+  static async getCars(req, res, next) {
     try {
       const queryLength = Object.keys(req.query).length;
       if (queryLength >= 0) {
         let response;
         switch (queryLength) {
           case 0:
-            response = CarService.fetchAllCars();
+            response = await CarService.fetchAllCars();
             return res.status(response.status).send(response);
           case 1:
-            response = CarService.fetchCars(req.query);
+            response = await CarService.fetchCars(req.query);
             return res.status(response.status).send(response);
           case 2:
-            response = CarService.fetchCarWithState(req.query);
+            response = await CarService.fetchCarWithState(req.query);
             return res.status(response.status).send(response);
           case 3:
-            response = CarService.fetchCarWithOptions(req.query);
+            response = await CarService.fetchCarWithOptions(req.query);
             return res.status(response.status).send(response);
           default:
             return res.status(403).json({
@@ -71,9 +71,9 @@ export default class CarController {
     }
   }
 
-  static deleteOneCar(req, res, next) {
+  static async deleteOneCar(req, res, next) {
     try {
-      const response = CarService.removeOneCar(req.params.carId);
+      const response = await CarService.removeOneCar(req.params.carId);
       return res.status(response.status).send(response);
     } catch (ex) {
       return next(ex);
