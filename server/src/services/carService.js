@@ -251,4 +251,44 @@ export default class CarService {
     if (carExist) return carExist;
     return false;
   }
+
+  static fetchCarWithState(paramsData) {
+    const { status, state } = paramsData;
+
+    if (typeof status === 'undefined')
+      return { status: 403, error: 'Status is required', success: false };
+
+    if (status !== 'available')
+      return { status: 403, error: 'Status can only be available', success: false };
+
+    if (typeof state === 'undefined')
+      return { status: 403, error: 'State is required', success: false };
+
+    if (state !== 'new') return { status: 403, error: 'State can only be new', success: false };
+
+    const carExists = cars.filter(car => car.status === status && car.state === state);
+
+    let data;
+    if (carExists) {
+      data = carExists.map(carExist => {
+        const mappedresult = {
+          id: carExist.id,
+          owner: carExist.owner,
+          created_on: carExist.created_on,
+          state: carExist.state,
+          status: carExist.status,
+          price: carExist.price,
+          manufacturer: carExist.manufacturer,
+          model: carExist.model,
+          body_type: carExist.body_type
+        };
+
+        return mappedresult;
+      });
+    }
+
+    if (data.length > 0) return { status: 200, data, success: true };
+
+    return { status: 200, error: `No ${state} car is for sale`, success: true };
+  }
 }

@@ -49,6 +49,9 @@ export default class CarController {
           case 1:
             response = CarService.fetchCars(req.query);
             return res.status(response.status).send(response);
+          case 2:
+            response = CarService.fetchCarWithState(req.query);
+            return res.status(response.status).send(response);
           case 3:
             response = CarService.fetchCarWithOptions(req.query);
             return res.status(response.status).send(response);
