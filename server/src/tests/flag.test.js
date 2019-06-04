@@ -147,7 +147,7 @@ describe('Test Suite For Flag Endpoints', () => {
           done();
         });
     });
-    it('should return error if reason value is not string', done => {
+    it('should return error if description value is not string', done => {
       chai
         .request(server)
         .post('/api/v1/flag')
