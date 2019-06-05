@@ -9,6 +9,7 @@
     "babel-build": "babel server/src -d server/dist && node server/dist/index",
     "clean": "rm -rf server/dist",
     "build": "npm run clean && npm run babel-build",
+    "heroku-postbuild": "echo skip post-build",
     "generate-lcov": "nyc report --reporter=text-lcov > lcov.info",
     "coveralls-coverage": "coveralls < lcov.info",
     "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
