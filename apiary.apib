@@ -1,0 +1,308 @@
+FORMAT: 1A
+HOST: https://web-automart.herokuapp.com/api/v1
+
+# AutoMart
+
+AutoMart is an online marketplace for automobiles of diverse makes, 
+model or body type. 
+With AutoMart, users can sell their cars or 
+buy from trusted dealerships or private sellers.
+
+## User Collection [/auth]
+
+### Log In An Existing User [POST/auth/signin]
+
++ Request (application/json)
+
+   + Attributes
+        + email: `anuakin@gmail.com` (string) - user email address
+        + password: `secret` (string) - user password
+
++ Response 200 (application/json)
+
+   + Attributes (User response)
+   
+
+### Register a new user [POST/auth/signup]
+
++ Request (application/json)
+
+   + Attributes
+        + firstName: `anu` (string) - user firstname
+        + lastName: `akin` (string) - user lastname
+        + email: `anuakin@gmail.com` (string) - user email address
+        + password: `secret` (string) - user password
+        + address: `25, olasebikan street, Agbado, Lagos` (string) - user address
+
++ Response 201 (application/json)
+
+    + Attributes (User response)  
+
+## Car Collection [/car]
+
+### Post a car advert [POST/car]
+
++ Request (multipart/form-data; boundary=BOUNDARY)
+  
+        --BOUNDARY
+        Content-Disposition: form-data; name="image[file]"; filename="image.jpg"
+        Content-Type: image/jpeg
+        
+        showcase.jpg
+        --BOUNDARY
+        Content-Disposition: form-data; name="email"
+        Content-Type: text/plain
+        
+        anuoluwapoakinseye@gmail.com
+        --BOUNDARY
+        Content-Disposition: form-data; name="created_on"
+        Content-Type: text/plain
+        
+        2019-06-06T00:41:44.496Z
+        --BOUNDARY
+        Content-Disposition: form-data; name="manufacturer"
+        Content-Type: text/plain
+        
+        bmw
+        --BOUNDARY
+        Content-Disposition: form-data; name="model"
+        Content-Type: text/plain
+        
+        s3
+        --BOUNDARY
+        Content-Disposition: form-data; name="price"
+        Content-Type: text/plain
+        
+        1755999.99
+        --BOUNDARY
+        Content-Disposition: form-data; name="bodyType"
+        Content-Type: text/plain
+        
+        coupe
+        --BOUNDARY--
+        
++ Response 201 (application/json)
+
+    + Attributes (Post car response)
+
+
+### Update a car Advert status [PATCH/car/{carId}/status]
+
++ Parameter
+
+    + carId: `1` (number) - car ID to be updated
+
++ Request (application/json)
+
+    + Attributes
+        + status: `sold` (string) - new status
+    
+    
++ Response 202 (application/json)
+
+    + Attributes (Update car status response)
+
+
+### Update a car Advert price [PATCH/car/{carId}/price]
+    
++ Parameter 
+
+    + carId: `1` (number) - car ID to be updated
+
++ Request (application/json)
+
+    + Attributes
+    
+        + price: `1749999.99` (number) - new price
+    
+    
++ Response 202 (application/json)
+
+    + Attributes (Update car price response)
+    
+
+### Fetch a specific car advert [GET/car/{carId}]
+
++ Parameter 
+
+    + carId: `1` (number) - car ID to be fetch
+
++ Response 200 (application/json)
+
+    + Attributes (Fetch car response)
+
+
+### Fetch all unsold car advert [GET/car?status=available]
+
++ Response 200 (application/json)
+
+    + Attributes (array [Fetch car response])
+    
+
+### Fetch all unsold car within price range [GET/car?status=available&min_price=1700000&max_price=2500000]
+
++ Response 200 (application/json)
+
+    + Attributes (array [Fetch car response])
+
+
+### Delete a car advert [DELETE/car/{carId}]
+
+- Parameter 
+
+    - carId: `1` (number) - car Id of advert to be deletedd
+        
++ Response 200 (application/json)
+
+    + Attributes (Delete car response)
+
+
+### Fetch all car advert whether sold or unsold [GET/car]
+
++ Response 200 (application/json)
+
+    + Attributes (array [Fetch car response])    
+
+
+### Fetch all unsold car which state reads new [GET/car?status=available&state=new]
+
++ Response 200 (application/json)
+
+    + Attributes (array [Fetch car response])  
+
+
+### Fetch all unsold car which state reads used [GET/car?status=available&state=used]
+
++ Response 200 (application/json)
+
+    + Attributes (array [Fetch car response])  
+
+
+## Order Collection [/order]
+
+### Make a purchase order on car advert [POST/order]
+
++ Request (application/json)
+    
+    + Attributes
+        + email: `taiwoakin@gmail.com` (string) - buyer email address
+        + carId: 2 (number) - car ID number
+        + amount: 1750000.00 (number) - Amount to be offered for the purchase
+
++ Response 201 (application/json)
+
+    + Attributes (Purchase order response) 
+
+
+### Update price of purchase order if order status is pending [PATCH/order/{orderId}/price] 
+
++ Parameter 
+
+    + orderId: `1` (number) - purchase order ID to be updated
+
++ Request (application/json)
+
+    + Attributes
+    
+        + price: `1755000` (number) - new price
+    
+    
++ Response 202 (application/json)
+
+    + Attributes (Update purchase order price response)
+
+
+## Flag Collection [/flag]
+
+### Flag/Report a car advert as fraudulent [POST/flag]
+
+
++ Request (application/json)
+    
+    + Attributes
+        + carId: 2 (number) - car ID number
+        + reason: `pricing` (string)
+        + description: `the price of the car is too expensive` (string)
+
++ Response 201 (application/json)
+
+    + Attributes (flag advert response) 
+
+
+# Data Structures
+
+## User response (object)
++ id: `1` (number) - user ID number
++ first_name: `anu` (string) user first name
++ last_name: `akin` (string) user last name
++ email: `anuakin@gmail.com` (string) user email address
++ token: `544yiu4y090939849rl;kfliuwruy` (string) user generated token
+
+
+## Post car response (object)
++ id: `1` (number) - car ID
++ email: `anuoluwapoakinseye@gmail.com` (string) car owner email address
++ created_on: `2019-06-06T00:41:44.496Z` (string) car posted date
++ manufacturer: `bmw` (string) car manufacturer
++ model: `s3` (string) car model
++ price: `1755999.99` (number) car price
++ status: `available` (string) car status
+
+
+## Update car status response
++ id: `1` (number) - car ID
++ email: `anuoluwapoakinseye@gmail.com` (string) - car owner email address
++ created_on: `2019/05/25/ 13:30:30` (string) - car advert posted date 
++ manufacturer: `bwm` (string) - car manufacturer
++ model: `BMW 3 Series 320d 2014` (string) - car model
++ price: `1759999.99` (string) - car price
++ state: `used` (string) - car state
++ status: `sold` (string) - car status
+
+
+## Update car price response (object)
++ id: `1` (number) - car ID
++ email: `anuoluwapoakinseye@gmail.com` (string) - car owner email address
++ created_on: `2019/05/25/ 13:30:30` (string) - car advert posted date 
++ manufacturer: `bwm` (string) - car manufacturer
++ model: `BMW 3 Series 320d 2014` (string) - car model
++ price: `1749999.99` (string) - car price
++ state: `used` (string) - car state
++ status: `available` (string) - car status
+
+
+## Fetch car response (object)
++ id: `1` (number) - car ID 
++ owner: `1` (number) - car owner ID 
++ created_on: `2019/05/25/ 13:30:30` (string) - car advert posted date 
++ state: `used` (string) - car state
++ status: `sold` (string) - car status
++ price: `1759999.99` (string) - car price
++ manufacturer: `bwm` (string) - car manufacturer
++ model: `BMW 3 Series 320d 2014` (string) - car model
++ body_type: `car` (string) - car body type
+
+
+## Delete car response (object)
++ data: `Car Ad successfully deleted` (string) - message after advert is deleted
+
+
+## Purchase order response (object)
++ id: `1` (number) - order ID number
++ car_id: `1` (number) - purchase car ID number
++ price: `1759999.99` (number) - price of the car
++ price_offered: 1750000.00 (number) - Amount to be offered for the purchase
+
+
+## Update purchase order price response (object)
++ id: 1 (number) - order ID number
++ car_id: 2 (number) - purchase car ID number
++ status: `pending` (string) - status of the order
++ old_price_offered: 1750000.00 (number) - old purchase order price
++ new_price_offered: `1755000` (number) - new price to be updated
+
+## flag advert response (object)
++ id: `1` (number) - flag ID number
++ car_id: `1` (number) - flagged car ID number 
++ reason: `pricing` (string)
++ description: `the price of the car is too expensive` (string)

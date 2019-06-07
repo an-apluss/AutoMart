@@ -6,7 +6,22 @@ import UserService from './userService';
 const { generateId, cloudinaryUpload, validateUnsoldCarWithOptions } = Helper;
 const { cars } = storage;
 
+/**
+ *
+ *
+ * @export CarService
+ * @class CarService
+ */
 export default class CarService {
+  /**
+   *
+   * Handles the logic to post a car advert
+   * @static
+   * @param {String} carImage incoming request for car image path
+   * @param {Object} carInfo incoming request for car details
+   * @returns JSON API Response
+   * @memberof CarService
+   */
   static async createCar(carImage, carInfo) {
     const { email, state, price, manufacturer, model, bodyType } = carInfo;
 
@@ -52,6 +67,15 @@ export default class CarService {
     };
   }
 
+  /**
+   *
+   * Handles the logic to update a car status
+   * @static
+   * @param {Integer} carId car id of the car advert to be updated
+   * @param {String} newStatus car new status
+   * @returns JSON API Response
+   * @memberof CarService
+   */
   static updateCarStatus(carId, newStatus) {
     const carExist = cars.find(car => car.id === parseInt(carId, 10));
     if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
@@ -74,6 +98,15 @@ export default class CarService {
     };
   }
 
+  /**
+   *
+   * Handles the logic to update the price of a car advert
+   * @static
+   * @param {Integer} carId car id of the car advert to be updated
+   * @param {Float} newPrice
+   * @returns JSON API Response
+   * @memberof CarService
+   */
   static updateCarPrice(carId, newPrice) {
     const carExist = cars.find(car => car.id === parseInt(carId, 10));
     if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
@@ -96,6 +129,14 @@ export default class CarService {
     };
   }
 
+  /**
+   *
+   * Handles the logic to fetch a specific car advert
+   * @static
+   * @param {Integer} carId car id to fetch specific car advert
+   * @returns
+   * @memberof CarService
+   */
   static fetchOneCar(carId) {
     const carExist = cars.find(car => car.id === parseInt(carId, 10));
     if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
@@ -129,6 +170,14 @@ export default class CarService {
     };
   }
 
+  /**
+   *
+   * Handles the logic to fetch all unsold car adverts
+   * @static
+   * @param {Object} carString holds the status of the car advert to be fectch
+   * @returns JSON API Response
+   * @memberof CarService
+   */
   static fetchCars(carString) {
     const { status } = carString;
 
@@ -163,6 +212,14 @@ export default class CarService {
     return { status: 200, data: 'No car is available for sale', success: true };
   }
 
+  /**
+   *
+   * Handles the logic to fetch unsold cars within a specific price range
+   * @static
+   * @param {Object} options holds the status, min_price and max_price of the car advert to be fetch
+   * @returns JSON API Response
+   * @memberof CarService
+   */
   static fetchCarWithOptions(options) {
     const { status, min_price, max_price } = options;
 
@@ -212,6 +269,14 @@ export default class CarService {
     };
   }
 
+  /**
+   *
+   * Handle the logic to delete a specific car advert
+   * @static
+   * @param {Integer} carId car id of car to be deleted
+   * @returns JSON API Response
+   * @memberof CarService
+   */
   static removeOneCar(carId) {
     const carExist = cars.find(car => car.id === parseInt(carId, 10));
 
@@ -223,6 +288,13 @@ export default class CarService {
     return { status: 200, data: 'Car Ad successfully deleted', success: true };
   }
 
+  /**
+   *
+   * Handles the logic to fetch all car adverts whether sold or unsold
+   * @static
+   * @returns JSON API Response
+   * @memberof CarService
+   */
   static fetchAllCars() {
     let data;
     if (cars) {
@@ -246,12 +318,28 @@ export default class CarService {
     return { status: 200, data: 'No car is currently on the platform', success: true };
   }
 
+  /**
+   *
+   * Handles the logic to fetch car advert by Id
+   * @static
+   * @param {Integer} carId car id to fetch a car advert
+   * @returns JSON API Response
+   * @memberof CarService
+   */
   static fetchCarById(carId) {
     const carExist = cars.find(car => car.id === parseInt(carId, 10));
     if (carExist) return carExist;
     return false;
   }
 
+  /**
+   *
+   * Handles the logic of all unsold car advert which state reads used or new
+   * @static
+   * @param {Object} paramsData holds the status and state of car advert to be fetch
+   * @returns JSON API Response
+   * @memberof CarService
+   */
   static fetchCarWithState(paramsData) {
     let { status, state } = paramsData;
 

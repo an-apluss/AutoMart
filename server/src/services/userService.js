@@ -5,7 +5,21 @@ import User from '../models/userModel';
 const { generateId, hashPassword, generateToken, compareHashedPassword } = Helper;
 const { users } = storage;
 
+/**
+ *
+ *
+ * @export UserService
+ * @class UserService
+ */
 export default class UserService {
+  /**
+   *
+   * Handles the logic to register/sign up user on the platform
+   * @static
+   * @param {Object} userData holds the details about the user
+   * @returns JSON API Response
+   * @memberof UserService
+   */
   static async createUser(userData) {
     const { firstName, lastName, email, password, address, isAdmin } = userData;
 
@@ -30,6 +44,14 @@ export default class UserService {
     };
   }
 
+  /**
+   *
+   * Handles the logic to sign in/login user on the platform
+   * @static
+   * @param {Object} userData holds data to login user
+   * @returns JSON API Response
+   * @memberof UserService
+   */
   static async loginUser(userData) {
     const userExist = users.find(user => user.email === userData.email);
 
@@ -63,6 +85,14 @@ export default class UserService {
     };
   }
 
+  /**
+   *
+   * Handles the logic to find a specific user by email
+   * @static
+   * @param {String} userEmail user email address
+   * @returns {(Boolean|Object)} false or user data
+   * @memberof UserService
+   */
   static findUserByEmail(userEmail) {
     const userExist = users.find(user => user.email === userEmail);
 
@@ -73,6 +103,14 @@ export default class UserService {
     return { id, email, first_name, last_name, password, address, isAdmin };
   }
 
+  /**
+   *
+   * Handles the logic to find a specific user by id
+   * @static
+   * @param {Integer} userId
+   * @returns {(Boolean|Object)} false or user data
+   * @memberof UserService
+   */
   static findUserById(userId) {
     const userExist = users.find(user => user.id === parseInt(userId, 10));
 
