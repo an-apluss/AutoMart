@@ -2,7 +2,22 @@ import helper from '../helpers/helpers';
 
 const { validatePurchaseOrder, isWholeNumber, validateUpdateOrderPrice } = helper;
 
+/**
+ *
+ *
+ * @export OrderValidation
+ * @class OrderValidation
+ */
 export default class OrderValidation {
+  /**
+   *
+   * Handles validation of user input to purchase an order
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {(function|Object)} function next() or an error response object
+   * @memberof OrderValidation
+   */
   static checkPurchaseOrder(req, res, next) {
     const { error } = validatePurchaseOrder(req.body);
 
@@ -18,6 +33,15 @@ export default class OrderValidation {
     return next();
   }
 
+  /**
+   *
+   * Handles validation of user input to update the price of purchase order
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {(function|Object)} function next() or an error response object
+   * @memberof OrderValidation
+   */
   static checkOrdeUpdate(req, res, next) {
     if (!isWholeNumber(req.params.orderId))
       return res

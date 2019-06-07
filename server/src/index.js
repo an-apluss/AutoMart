@@ -20,6 +20,10 @@ app.get('/', (req, res) => {
   return res.status(200).json({ status: 200, data: 'AutoMart says, Welcome!', success: true });
 });
 
+app.get('/documentation', (req, res) => {
+  return res.redirect('https://webautomart.docs.apiary.io');
+});
+
 app.use('/api/v1/auth', userRoute);
 app.use('/api/v1/car', carRoute);
 app.use('/api/v1/order', orderRoute);

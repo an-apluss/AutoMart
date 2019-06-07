@@ -7,7 +7,21 @@ import UserService from './userService';
 const { orders } = storage;
 const { generateId } = helper;
 
+/**
+ *
+ *
+ * @export OrderService
+ * @class OrderService
+ */
 export default class OrderService {
+  /**
+   *
+   * Handles the logic to purchase an order
+   * @static
+   * @param {Object} orderData order data is user input to purchase an order
+   * @returns JSON API Response
+   * @memberof OrderService
+   */
   static createOrder(orderData) {
     const { email, carId, amount } = orderData;
     const id = generateId(orders);
@@ -40,6 +54,15 @@ export default class OrderService {
     };
   }
 
+  /**
+   *
+   * Handles the logic to update the price of purchase order which status reads pending
+   * @static
+   * @param {Integer} orderId
+   * @param {Number} newPriceOffer new price to be offered for the purchase order
+   * @returns JSON API Response
+   * @memberof OrderService
+   */
   static updatePrice(orderId, newPriceOffer) {
     const orderExist = orders.find(order => order.id === parseInt(orderId, 10));
 
