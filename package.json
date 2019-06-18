@@ -16,7 +16,8 @@
     "coverage": "nyc npm run test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage",
     "create-tables": "babel-node server/src/database/migration/createTables",
     "drop-tables": "babel-node server/src/database/migration/dropTables",
-    "migration": "npm run drop-tables && npm run create-tables"
+    "user-seeder": "babel-node server/src/database/seeds/usersTableSeeder",
+    "migration": "npm run drop-tables && npm run create-tables && npm run user-seeder"
   },
   "repository": {
     "type": "git",

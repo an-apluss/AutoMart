@@ -25,7 +25,7 @@ export default class CarService {
   static async createCar(carImage, carInfo) {
     const { email, state, price, manufacturer, model, bodyType } = carInfo;
 
-    const carOwner = UserService.findUserByEmail(email);
+    const carOwner = await UserService.findUserByEmail(email);
     if (!carOwner)
       return {
         status: 401,
@@ -76,10 +76,10 @@ export default class CarService {
    * @returns JSON API Response
    * @memberof CarService
    */
-  static updateCarStatus(carId, newStatus) {
+  static async updateCarStatus(carId, newStatus) {
     const carExist = cars.find(car => car.id === parseInt(carId, 10));
     if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
-    const { email } = UserService.findUserById(carExist.owner);
+    const { email } = await UserService.findUserById(carExist.owner);
     carExist.status = newStatus;
     const { id, created_on, manufacturer, model, price, state, status } = carExist;
     return {
@@ -107,10 +107,10 @@ export default class CarService {
    * @returns JSON API Response
    * @memberof CarService
    */
-  static updateCarPrice(carId, newPrice) {
+  static async updateCarPrice(carId, newPrice) {
     const carExist = cars.find(car => car.id === parseInt(carId, 10));
     if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
-    const { email } = UserService.findUserById(carExist.owner);
+    const { email } = await UserService.findUserById(carExist.owner);
     carExist.price = parseFloat(newPrice).toFixed(2);
     const { id, created_on, manufacturer, model, price, state, status } = carExist;
     return {
@@ -140,7 +140,6 @@ export default class CarService {
   static fetchOneCar(carId) {
     const carExist = cars.find(car => car.id === parseInt(carId, 10));
     if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
-
     const {
       id,
       owner,
