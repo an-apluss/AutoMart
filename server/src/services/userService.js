@@ -1,9 +1,7 @@
 import Helper from '../helpers/helpers';
-import storage from '../models/dummydata';
 import User from '../models/userModel';
 
-const { generateId, hashPassword, generateToken, compareHashedPassword } = Helper;
-const { users } = storage;
+const { hashPassword, generateToken, compareHashedPassword } = Helper;
 
 /**
  *
@@ -21,15 +19,11 @@ export default class UserService {
    * @memberof UserService
    */
   static async createUser(userData) {
-    const { firstName, lastName, email, password, address, isAdmin } = userData;
+    const hashedPassword = await hashPassword(userData.password, 10);
+    const newUserData = { ...userData, hashedPassword };
+    const newUser = await User.create(newUserData);
 
-    const id = generateId(users);
-    const hashedPassword = await hashPassword(password, 10);
-
-    const newUser = new User(id, email, firstName, lastName, hashedPassword, address, isAdmin);
-    users.push(newUser);
-
-    const { first_name, last_name } = newUser;
+    const { id, email, first_name, last_name } = newUser;
 
     return {
       status: 201,
@@ -53,7 +47,7 @@ export default class UserService {
    * @memberof UserService
    */
   static async loginUser(userData) {
-    const userExist = users.find(user => user.email === userData.email);
+    const userExist = await User.findByEmail(userData.email);
 
     if (!userExist)
       return {
@@ -93,8 +87,8 @@ export default class UserService {
    * @returns {(Boolean|Object)} false or user data
    * @memberof UserService
    */
-  static findUserByEmail(userEmail) {
-    const userExist = users.find(user => user.email === userEmail);
+  static async findUserByEmail(userEmail) {
+    const userExist = await User.findByEmail(userEmail);
 
     if (!userExist) return false;
 
@@ -111,8 +105,8 @@ export default class UserService {
    * @returns {(Boolean|Object)} false or user data
    * @memberof UserService
    */
-  static findUserById(userId) {
-    const userExist = users.find(user => user.id === parseInt(userId, 10));
+  static async findUserById(userId) {
+    const userExist = await User.findById(parseInt(userId, 10));
 
     if (!userExist) return false;
 
