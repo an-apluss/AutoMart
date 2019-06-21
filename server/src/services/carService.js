@@ -1,10 +1,8 @@
 import Helper from '../helpers/helpers';
-import storage from '../models/dummydata';
 import Car from '../models/carModel';
 import UserService from './userService';
 
-const { generateId, cloudinaryUpload, validateUnsoldCarWithOptions } = Helper;
-const { cars } = storage;
+const { cloudinaryUpload, validateUnsoldCarWithOptions } = Helper;
 
 /**
  *
@@ -23,9 +21,9 @@ export default class CarService {
    * @memberof CarService
    */
   static async createCar(carImage, carInfo) {
-    const { email, state, price, manufacturer, model, bodyType } = carInfo;
-
+    const { email } = carInfo;
     const carOwner = await UserService.findUserByEmail(email);
+
     if (!carOwner)
       return {
         status: 401,
@@ -33,24 +31,16 @@ export default class CarService {
         success: false
       };
 
-    const id = generateId(cars);
     const { url, public_id } = await cloudinaryUpload(carImage, 'automart');
-    const priceConvert = parseFloat(price).toFixed(2);
-    const newCarPostAd = new Car(
-      id,
-      carOwner.id,
-      state,
-      priceConvert,
-      manufacturer,
-      model,
-      bodyType,
-      public_id,
-      url
-    );
 
-    const { created_on, status } = newCarPostAd;
+    carInfo.owner = carOwner.id;
+    carInfo.imageId = public_id;
+    carInfo.imageUrl = url;
+    carInfo.price = parseFloat(carInfo.price).toFixed(2);
 
-    cars.push(newCarPostAd);
+    const newCarPostAd = await Car.create(carInfo);
+
+    const { id, created_on, status, manufacturer, model, price } = newCarPostAd;
 
     return {
       status: 201,
@@ -60,7 +50,7 @@ export default class CarService {
         created_on,
         manufacturer,
         model,
-        price: newCarPostAd.price,
+        price,
         status
       },
       success: true
@@ -77,11 +67,17 @@ export default class CarService {
    * @memberof CarService
    */
   static async updateCarStatus(carId, newStatus) {
-    const carExist = cars.find(car => car.id === parseInt(carId, 10));
+    const carExist = await Car.findById(parseInt(carId, 10));
+
     if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
+
     const { email } = await UserService.findUserById(carExist.owner);
-    carExist.status = newStatus;
-    const { id, created_on, manufacturer, model, price, state, status } = carExist;
+
+    const { status } = await Car.update(carId, 'status', newStatus);
+    carExist.status = status;
+
+    const { id, created_on, manufacturer, model, price, state } = carExist;
+
     return {
       status: 202,
       data: {
@@ -108,11 +104,17 @@ export default class CarService {
    * @memberof CarService
    */
   static async updateCarPrice(carId, newPrice) {
-    const carExist = cars.find(car => car.id === parseInt(carId, 10));
+    const carExist = await Car.findById(parseInt(carId, 10));
+
     if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
+
     const { email } = await UserService.findUserById(carExist.owner);
-    carExist.price = parseFloat(newPrice).toFixed(2);
-    const { id, created_on, manufacturer, model, price, state, status } = carExist;
+
+    const { price } = await Car.update(carId, 'price', newPrice);
+    carExist.price = price;
+
+    const { id, created_on, manufacturer, model, state, status } = carExist;
+
     return {
       status: 202,
       data: {
@@ -137,8 +139,8 @@ export default class CarService {
    * @returns
    * @memberof CarService
    */
-  static fetchOneCar(carId) {
-    const carExist = cars.find(car => car.id === parseInt(carId, 10));
+  static async fetchOneCar(carId) {
+    const carExist = await Car.findById(parseInt(carId, 10));
     if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
     const {
       id,
@@ -177,7 +179,7 @@ export default class CarService {
    * @returns JSON API Response
    * @memberof CarService
    */
-  static fetchCars(carString) {
+  static async fetchCars(carString) {
     const { status } = carString;
 
     if (typeof status === 'undefined') {
@@ -188,9 +190,9 @@ export default class CarService {
       return { status: 403, error: 'Status can only be available', success: false };
     }
 
-    const carExists = cars.filter(car => car.status === status);
-    if (carExists) {
-      const data = carExists.map(carExist => {
+    const carsExist = await Car.findByStatus(status);
+    if (carsExist) {
+      const data = carsExist.map(carExist => {
         const mappedresult = {
           id: carExist.id,
           owner: carExist.owner,
@@ -219,8 +221,9 @@ export default class CarService {
    * @returns JSON API Response
    * @memberof CarService
    */
-  static fetchCarWithOptions(options) {
-    const { status, min_price, max_price } = options;
+  static async fetchCarWithOptions(options) {
+    const { status } = options;
+    let { min_price, max_price } = options;
 
     if (typeof status === 'undefined')
       return { status: 403, error: 'Status is not provided', success: false };
@@ -228,22 +231,19 @@ export default class CarService {
     if (status !== 'available')
       return { status: 403, error: 'Status can only be available', success: false };
 
-    if (parseFloat(min_price) >= parseFloat(max_price))
+    min_price = parseFloat(min_price);
+    max_price = parseFloat(max_price);
+
+    if (min_price >= max_price)
       return { status: 403, error: 'max_price must be greater min_price', success: false };
 
     const { error } = validateUnsoldCarWithOptions(options);
     if (error) return { status: 403, error: error.details[0].message, success: false };
 
-    const carExists = cars.filter(
-      car =>
-        car.status === status &&
-        (parseFloat(car.price) >= parseFloat(min_price) &&
-          parseFloat(car.price) <= parseFloat(max_price))
-    );
-
+    const carsExist = await Car.findByPriceRange(status, min_price, max_price);
     let data;
-    if (carExists) {
-      data = carExists.map(carExist => {
+    if (carsExist) {
+      data = carsExist.map(carExist => {
         const mappedresult = {
           id: carExist.id,
           owner: carExist.owner,
@@ -276,13 +276,12 @@ export default class CarService {
    * @returns JSON API Response
    * @memberof CarService
    */
-  static removeOneCar(carId) {
-    const carExist = cars.find(car => car.id === parseInt(carId, 10));
+  static async removeOneCar(carId) {
+    const carExist = await Car.findById(parseInt(carId, 10));
 
     if (!carExist) return { status: 403, error: 'Provided car id cannot be found', success: false };
 
-    const index = cars.indexOf(carExist);
-    cars.splice(index, 1);
+    await Car.remove(carId);
 
     return { status: 200, data: 'Car Ad successfully deleted', success: true };
   }
@@ -294,10 +293,11 @@ export default class CarService {
    * @returns JSON API Response
    * @memberof CarService
    */
-  static fetchAllCars() {
+  static async fetchAllCars() {
     let data;
-    if (cars) {
-      data = cars.map(car => {
+    const allCar = await Car.findAll();
+    if (allCar) {
+      data = allCar.map(car => {
         return {
           id: car.id,
           owner: car.owner,
@@ -325,8 +325,8 @@ export default class CarService {
    * @returns JSON API Response
    * @memberof CarService
    */
-  static fetchCarById(carId) {
-    const carExist = cars.find(car => car.id === parseInt(carId, 10));
+  static async fetchCarById(carId) {
+    const carExist = await Car.findById(parseInt(carId, 10));
     if (carExist) return carExist;
     return false;
   }
@@ -339,7 +339,7 @@ export default class CarService {
    * @returns JSON API Response
    * @memberof CarService
    */
-  static fetchCarWithState(paramsData) {
+  static async fetchCarWithState(paramsData) {
     let { status, state } = paramsData;
 
     if (typeof status === 'undefined')
@@ -367,7 +367,7 @@ export default class CarService {
         break;
     }
 
-    const carExists = cars.filter(car => car.status === status && car.state === state);
+    const carExists = await Car.findByStatusAndState(status, state);
 
     let data;
 
