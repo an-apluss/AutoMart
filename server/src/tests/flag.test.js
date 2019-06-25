@@ -33,7 +33,7 @@ describe('Test Suite For Flag Endpoints', () => {
         .request(server)
         .post('/api/v1/flag')
         .send({
-          carId: 100000000000000000000000000000000000000000000000001,
+          carId: 1000000,
           reason: 'pricing',
           description: 'The cost for the car is too high'
         })

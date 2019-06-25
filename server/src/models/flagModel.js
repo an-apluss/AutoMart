@@ -1,3 +1,5 @@
+import database from '../database/index';
+
 /**
  *
  *
@@ -6,19 +8,20 @@
  */
 export default class Flag {
   /**
-   *Creates an instance of Flag.
-   * @param {Integer} id
-   * @param {Integer} car_id
-   * @param {Date} [created_on = new Date()]
-   * @param {String} reason
-   * @param {String} description
+   *
+   * Create flag/report in the database
+   * @static
+   * @param {Object} flagData
+   * @returns {Object}
    * @memberof Flag
    */
-  constructor(id, car_id, reason, description) {
-    this.id = id;
-    this.car_id = car_id;
-    this.created_on = new Date();
-    this.reason = reason;
-    this.description = description;
+  static async create(flagData) {
+    const { carId, reason, description } = flagData;
+    const sqlQuery = `INSERT INTO flags (car_id, reason, description) VALUES ($1, $2, $3) returning *`;
+    const values = [carId, reason, description];
+
+    const { rows } = await database.query(sqlQuery, values);
+
+    return rows[0];
   }
 }

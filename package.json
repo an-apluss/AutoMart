@@ -19,7 +19,8 @@
     "user-seeder": "babel-node server/src/database/seeds/usersTableSeeder",
     "car-seeder": "babel-node server/src/database/seeds/carsTableSeeder",
     "order-seeder": "babel-node server/src/database/seeds/ordersTableSeeder",
-    "migration": "npm run drop-tables && npm run create-tables && npm run user-seeder && npm run car-seeder && npm run order-seeder"
+    "flag-seeder": "babel-node server/src/database/seeds/flagsTableSeeder",
+    "migration": "npm run drop-tables && npm run create-tables && npm run user-seeder && npm run car-seeder && npm run order-seeder && npm run flag-seeder"
   },
   "repository": {
     "type": "git",
