@@ -18,7 +18,8 @@
     "drop-tables": "babel-node server/src/database/migration/dropTables",
     "user-seeder": "babel-node server/src/database/seeds/usersTableSeeder",
     "car-seeder": "babel-node server/src/database/seeds/carsTableSeeder",
-    "migration": "npm run drop-tables && npm run create-tables && npm run user-seeder && npm run car-seeder"
+    "order-seeder": "babel-node server/src/database/seeds/ordersTableSeeder",
+    "migration": "npm run drop-tables && npm run create-tables && npm run user-seeder && npm run car-seeder && npm run order-seeder"
   },
   "repository": {
     "type": "git",

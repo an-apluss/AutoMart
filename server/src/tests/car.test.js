@@ -349,7 +349,7 @@ describe('Test Suite For Car Endpoints', () => {
     it('should return error if provided :carId does not exist', done => {
       chai
         .request(server)
-        .patch('/api/v1/car/1000000000000000000000000000000000000/status')
+        .patch('/api/v1/car/1000000/status')
         .send({ status: 'sold' })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -438,7 +438,7 @@ describe('Test Suite For Car Endpoints', () => {
     it('should return error if provided :carId does not exist', done => {
       chai
         .request(server)
-        .patch('/api/v1/car/1000000000000000000000000000000000000/price')
+        .patch('/api/v1/car/1000000/price')
         .send({ price: 1777777 })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -527,7 +527,7 @@ describe('Test Suite For Car Endpoints', () => {
     it('should return error if provided :carId is doesnot exist', done => {
       chai
         .request(server)
-        .get('/api/v1/car/10000000000000000000000000000000000000000000000000000')
+        .get('/api/v1/car/1000000')
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -747,7 +747,7 @@ describe('Test Suite For Car Endpoints', () => {
     it('should successfully delete a specific car Ad if carId is numeric and exist', done => {
       chai
         .request(server)
-        .delete('/api/v1/car/1')
+        .delete('/api/v1/car/5')
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'data');
@@ -772,7 +772,7 @@ describe('Test Suite For Car Endpoints', () => {
     it('should return error if carId does not exist', done => {
       chai
         .request(server)
-        .delete('/api/v1/car/100000000000000000000000000000000000000')
+        .delete('/api/v1/car/1000000')
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
