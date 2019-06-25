@@ -225,7 +225,7 @@ describe('Test Suite For Order Endpoints', () => {
     it('should return error if orderId does not exist', done => {
       chai
         .request(server)
-        .patch('/api/v1/order/10000000000000000000000000000000000000000/price')
+        .patch('/api/v1/order/1000000/price')
         .send({ price: 1755000 })
         .end((err, res) => {
           res.body.should.be.an('object');
