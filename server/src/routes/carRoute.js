@@ -3,6 +3,7 @@ import express from 'express';
 import CarController from '../controllers/carController';
 import upload from '../middleware/imageUpload';
 import CarValidator from '../middleware/CarValidator';
+import Auth from '../middleware/Auth';
 
 const carRoute = express.Router();
 
@@ -15,11 +16,20 @@ const {
   checkSpecificCar
 } = CarValidator;
 
-carRoute.post('/', upload.single('image'), checkCarPostAd, postCarAd);
-carRoute.patch('/:carId/status', checkCarStatusUpdate, updateStatus);
-carRoute.patch('/:carId/price', checkCarPriceUpdate, updatePrice);
-carRoute.get('/:carId', checkSpecificCar, getOneCar);
-carRoute.get('/', getCars);
-carRoute.delete('/:carId', checkSpecificCar, deleteOneCar);
+const { checkHeader, checkBuyerSeller, checkAdmin } = Auth;
+
+carRoute.post(
+  '/',
+  checkHeader,
+  checkBuyerSeller,
+  upload.single('image'),
+  checkCarPostAd,
+  postCarAd
+);
+carRoute.patch('/:carId/status', checkHeader, checkBuyerSeller, checkCarStatusUpdate, updateStatus);
+carRoute.patch('/:carId/price', checkHeader, checkBuyerSeller, checkCarPriceUpdate, updatePrice);
+carRoute.get('/:carId', checkHeader, checkBuyerSeller, checkSpecificCar, getOneCar);
+carRoute.get('/', checkHeader, getCars);
+carRoute.delete('/:carId', checkHeader, checkAdmin, checkSpecificCar, deleteOneCar);
 
 export default carRoute;

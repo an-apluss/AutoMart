@@ -18,7 +18,7 @@ export default class CarController {
    */
   static async postCarAd(req, res, next) {
     try {
-      const response = await CarService.createCar(req.file.path, req.body);
+      const response = await CarService.createCar(req.file.path, req.body, req.user);
       return res.status(response.status).send(response);
     } catch (ex) {
       return next(ex);
@@ -36,7 +36,11 @@ export default class CarController {
    */
   static async updateStatus(req, res, next) {
     try {
-      const response = await CarService.updateCarStatus(req.params.carId, req.body.status);
+      const response = await CarService.updateCarStatus(
+        req.params.carId,
+        req.body.status,
+        req.user
+      );
       return res.status(response.status).send(response);
     } catch (ex) {
       return next(ex);
@@ -54,7 +58,7 @@ export default class CarController {
    */
   static async updatePrice(req, res, next) {
     try {
-      const response = await CarService.updateCarPrice(req.params.carId, req.body.price);
+      const response = await CarService.updateCarPrice(req.params.carId, req.body.price, req.user);
       return res.status(response.status).send(response);
     } catch (ex) {
       return next(ex);
@@ -93,20 +97,23 @@ export default class CarController {
   static async getCars(req, res, next) {
     try {
       const queryLength = Object.keys(req.query).length;
+
       if (queryLength >= 0) {
         let response;
+        const { isAdmin } = req.user;
+
         switch (queryLength) {
           case 0:
-            response = await CarService.fetchAllCars();
+            response = await CarService.fetchAllCars(isAdmin);
             return res.status(response.status).send(response);
           case 1:
-            response = await CarService.fetchCars(req.query);
+            response = await CarService.fetchCars(req.query, isAdmin);
             return res.status(response.status).send(response);
           case 2:
-            response = await CarService.fetchCarWithState(req.query);
+            response = await CarService.fetchCarWithState(req.query, isAdmin);
             return res.status(response.status).send(response);
           case 3:
-            response = await CarService.fetchCarWithOptions(req.query);
+            response = await CarService.fetchCarWithOptions(req.query, isAdmin);
             return res.status(response.status).send(response);
           default:
             return res.status(403).json({

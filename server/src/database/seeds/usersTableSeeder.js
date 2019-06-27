@@ -22,15 +22,15 @@ const createUser = async (email, firstName, lastName, password, address, isAdmin
     'akinseye',
     '$2b$10$iNkZIHC8.O2.IMttA3scg.ijA2ujMR3NJyM4.Oouo.AE06X0eK3LK',
     '25, olaosebikan street, Agbado, Lagos',
-    true
+    false
   );
   await createUser(
-    'maxiakinseye@gmail.com',
-    'maxi',
+    'marvelakinseye@gmail.com',
+    'marvel',
     'akinseye',
     '$2b$10$iNkZIHC8.O2.IMttA3scg.ijA2ujMR3NJyM4.Oouo.AE06X0eK3LK',
     '25, Olurnwa street, somewhere, Lagos',
-    false
+    true
   );
   await createUser(
     'taiwoakin@gmail.com',

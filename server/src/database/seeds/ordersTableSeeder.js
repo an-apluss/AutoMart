@@ -18,4 +18,5 @@ const createOrder = async (buyer, carId, amount, status) => {
 (async () => {
   await createOrder(2, 1, '1750000.00', 'pending');
   await createOrder(2, 3, '1750000.00', 'accepted');
+  await createOrder(1, 5, '1750000.00', 'pending');
 })();

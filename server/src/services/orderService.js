@@ -1,6 +1,5 @@
 import Order from '../models/orderModel';
 import CarService from './carService';
-import UserService from './userService';
 
 /**
  *
@@ -17,20 +16,24 @@ export default class OrderService {
    * @returns JSON API Response
    * @memberof OrderService
    */
-  static async createOrder(orderData) {
-    const { email, carId, amount } = orderData;
-    const convertAmount = parseFloat(amount).toFixed(2);
-
-    const userExist = await UserService.findUserByEmail(email);
-    if (userExist === false) return { status: 422, error: 'Email does not exist', success: false };
+  static async createOrder(orderData, userData) {
+    const { carId, amount } = orderData;
+    const price_offered = parseFloat(amount).toFixed(2);
 
     const carExist = await CarService.fetchCarById(carId);
     if (carExist === false) return { status: 422, error: 'CarId does not exist', success: false };
 
-    const buyer = userExist.id;
+    if (carExist.owner === userData.id)
+      return {
+        status: 403,
+        error: 'You cannot make purchase order on your advert',
+        success: false
+      };
+
+    const buyer = userData.id;
     const { price } = carExist;
 
-    const newOrder = await Order.create(buyer, parseInt(carId, 10), convertAmount);
+    const newOrder = await Order.create(buyer, parseInt(carId, 10), price_offered);
 
     const { id, car_id, created_on, status } = newOrder;
     return {
@@ -41,7 +44,7 @@ export default class OrderService {
         created_on,
         status,
         price,
-        price_offered: convertAmount
+        price_offered
       },
       success: true
     };
@@ -56,10 +59,19 @@ export default class OrderService {
    * @returns JSON API Response
    * @memberof OrderService
    */
-  static async updatePrice(orderId, newPriceOffer) {
+  static async updatePrice(orderId, newPriceOffer, userData) {
     const orderExist = await Order.findById(parseInt(orderId, 10));
 
     if (!orderExist) return { status: 403, error: 'Order id does not exist', success: false };
+
+    const { buyer } = orderExist;
+
+    if (buyer !== userData.id)
+      return {
+        status: 403,
+        error: 'You cannot perform this action. It is not your purchase order',
+        success: false
+      };
 
     if (orderExist.status.toLowerCase() !== 'pending')
       return {
@@ -67,6 +79,7 @@ export default class OrderService {
         error: 'Order cannot be updated. Order status is not pending',
         success: false
       };
+
     newPriceOffer = parseFloat(newPriceOffer).toFixed(2);
     const old_price_offered = orderExist.amount;
 

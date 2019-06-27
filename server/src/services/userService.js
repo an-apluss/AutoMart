@@ -78,40 +78,4 @@ export default class UserService {
       success: false
     };
   }
-
-  /**
-   *
-   * Handles the logic to find a specific user by email
-   * @static
-   * @param {String} userEmail user email address
-   * @returns {(Boolean|Object)} false or user data
-   * @memberof UserService
-   */
-  static async findUserByEmail(userEmail) {
-    const userExist = await User.findByEmail(userEmail);
-
-    if (!userExist) return false;
-
-    const { id, email, first_name, last_name, password, address, isAdmin } = userExist;
-
-    return { id, email, first_name, last_name, password, address, isAdmin };
-  }
-
-  /**
-   *
-   * Handles the logic to find a specific user by id
-   * @static
-   * @param {Integer} userId
-   * @returns {(Boolean|Object)} false or user data
-   * @memberof UserService
-   */
-  static async findUserById(userId) {
-    const userExist = await User.findById(parseInt(userId, 10));
-
-    if (!userExist) return false;
-
-    const { id, email, first_name, last_name, password, address, isAdmin } = userExist;
-
-    return { id, email, first_name, last_name, password, address, isAdmin };
-  }
 }

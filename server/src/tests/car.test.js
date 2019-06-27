@@ -10,14 +10,41 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('Test Suite For Car Endpoints', () => {
+  let adminToken;
+  let buyerSellerToken;
+
+  before(done => {
+    chai
+      .request(server)
+      .post('/api/v1/auth/signin')
+      .send({ email: 'marvelakinseye@gmail.com', password: 'secret' })
+      .end((err, res) => {
+        const { token } = res.body.data;
+        adminToken = token;
+        done();
+      });
+  });
+
+  before(done => {
+    chai
+      .request(server)
+      .post('/api/v1/auth/signin')
+      .send({ email: 'anuoluwapoakinseye@gmail.com', password: 'secret' })
+      .end((err, res) => {
+        const { token } = res.body.data;
+        buyerSellerToken = token;
+        done();
+      });
+  });
+
   describe('POST /api/v1/car', () => {
     it('should successfully post car Advert if provided data are valid', done => {
       chai
         .request(server)
         .post('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .type('form')
         .attach('image', 'server/src/tests/fortest.png')
-        .field('email', 'anuoluwapoakinseye@gmail.com')
         .field('state', 'used')
         .field('price', 1750000)
         .field('manufacturer', 'bmw')
@@ -43,8 +70,8 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .type('form')
-        .field('email', 'anuoluwapoakinseye@gmail.com')
         .field('state', 'used')
         .field('price', 1750000)
         .field('manufacturer', 'bmw')
@@ -62,9 +89,9 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .attach('image', 'server/src/index.js')
         .type('form')
-        .field('email', 'anuoluwapoakinseye@gmail.com')
         .field('state', 'used')
         .field('price', 1750000)
         .field('manufacturer', 'bmw')
@@ -78,70 +105,13 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
-    it('should return error if provided email field value does not exist', done => {
-      chai
-        .request(server)
-        .post('/api/v1/car')
-        .type('form')
-        .attach('image', 'server/src/tests/fortest.png')
-        .field('email', 'uoluwapoakinseye@gmail.com')
-        .field('state', 'used')
-        .field('price', 1750000)
-        .field('manufacturer', 'bmw')
-        .field('model', 'BMW 3 Series 320d 2014')
-        .field('bodyType', 'car')
-        .end((err, res) => {
-          res.body.should.be.an('object');
-          res.body.status.should.be.eql(401);
-          res.body.success.should.be.eql(false);
-          done();
-        });
-    });
-    it('should return error if provided email field value is invalid', done => {
-      chai
-        .request(server)
-        .post('/api/v1/car')
-        .type('form')
-        .attach('image', 'server/src/tests/fortest.png')
-        .field('email', 'uoluwapoakinseye@.com')
-        .field('state', 'used')
-        .field('price', 1750000)
-        .field('manufacturer', 'bmw')
-        .field('model', 'BMW 3 Series 320d 2014')
-        .field('bodyType', 'car')
-        .end((err, res) => {
-          res.body.should.be.an('object');
-          res.body.status.should.be.eql(422);
-          res.body.success.should.be.eql(false);
-          done();
-        });
-    });
-    it('should return error if provided email field value is empty', done => {
-      chai
-        .request(server)
-        .post('/api/v1/car')
-        .type('form')
-        .attach('image', 'server/src/tests/fortest.png')
-        .field('email', '')
-        .field('state', 'used')
-        .field('price', 1750000)
-        .field('manufacturer', 'bmw')
-        .field('model', 'BMW 3 Series 320d 2014')
-        .field('bodyType', 'car')
-        .end((err, res) => {
-          res.body.should.be.an('object');
-          res.body.status.should.be.eql(422);
-          res.body.success.should.be.eql(false);
-          done();
-        });
-    });
     it('should return error if provided state field value is empty', done => {
       chai
         .request(server)
         .post('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .type('form')
         .attach('image', 'server/src/tests/fortest.png')
-        .field('email', 'anuoluwapoakinseye@gmail.com')
         .field('state', '')
         .field('price', 1750000)
         .field('manufacturer', 'bmw')
@@ -158,9 +128,9 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .type('form')
         .attach('image', 'server/src/tests/fortest.png')
-        .field('email', 'anuoluwapoakinseye@gmail.com')
         .field('state', 122)
         .field('price', 1750000)
         .field('manufacturer', 'bmw')
@@ -177,9 +147,9 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .type('form')
         .attach('image', 'server/src/tests/fortest.png')
-        .field('email', 'anuoluwapoakinseye@gmail.com')
         .field('state', 'boy')
         .field('price', 1750000)
         .field('manufacturer', 'bmw')
@@ -196,9 +166,9 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .type('form')
         .attach('image', 'server/src/tests/fortest.png')
-        .field('email', 'anuoluwapoakinseye@gmail.com')
         .field('state', 'used')
         .field('price', '')
         .field('manufacturer', 'bmw')
@@ -215,9 +185,9 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .type('form')
         .attach('image', 'server/src/tests/fortest.png')
-        .field('email', 'anuoluwapoakinseye@gmail.com')
         .field('state', 'used')
         .field('price', -173663376)
         .field('manufacturer', 'bmw')
@@ -234,9 +204,9 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .type('form')
         .attach('image', 'server/src/tests/fortest.png')
-        .field('email', 'anuoluwapoakinseye@gmail.com')
         .field('state', 'used')
         .field('price', 'amount')
         .field('manufacturer', 'bmw')
@@ -253,9 +223,9 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .type('form')
         .attach('image', 'server/src/tests/fortest.png')
-        .field('email', 'anuoluwapoakinseye@gmail.com')
         .field('state', 'used')
         .field('price', 1750000)
         .field('manufacturer', '')
@@ -273,9 +243,9 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .type('form')
         .attach('image', 'server/src/tests/fortest.png')
-        .field('email', 'anuoluwapoakinseye@gmail.com')
         .field('state', 'used')
         .field('price', 1750000)
         .field('manufacturer', 'bmw')
@@ -293,9 +263,9 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .type('form')
         .attach('image', 'server/src/tests/fortest.png')
-        .field('email', 'anuoluwapoakinseye@gmail.com')
         .field('state', 'used')
         .field('price', 1750000)
         .field('manufacturer', 'bmw')
@@ -314,7 +284,8 @@ describe('Test Suite For Car Endpoints', () => {
     it('should successfully update car status if provided :carId is number and exist', done => {
       chai
         .request(server)
-        .patch('/api/v1/car/1/status')
+        .patch('/api/v1/car/4/status')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({ status: 'sold' })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -333,10 +304,39 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
+    it('should return error if user token is admin', done => {
+      chai
+        .request(server)
+        .patch('/api/v1/car/4/status')
+        .set('Authorization', `Bearer ${adminToken}`)
+        .send({ status: 'sold' })
+        .end((err, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'error', 'success');
+          res.body.status.should.be.eql(401);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
+    it('should return error if car advert does not belong to the set token', done => {
+      chai
+        .request(server)
+        .patch('/api/v1/car/5/status')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
+        .send({ status: 'sold' })
+        .end((err, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(401);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
     it('should return error if provided :carId is non-numeric', done => {
       chai
         .request(server)
         .patch('/api/v1/car/me1/status')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({ status: 'sold' })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -350,6 +350,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .patch('/api/v1/car/1000000/status')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({ status: 'sold' })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -362,7 +363,8 @@ describe('Test Suite For Car Endpoints', () => {
     it('should return error if provided value for status is not sold', done => {
       chai
         .request(server)
-        .patch('/api/v1/car/1/status')
+        .patch('/api/v1/car/4/status')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({ status: 'soldme' })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -375,7 +377,8 @@ describe('Test Suite For Car Endpoints', () => {
     it('should return error if provided value for status is empty', done => {
       chai
         .request(server)
-        .patch('/api/v1/car/1/status')
+        .patch('/api/v1/car/4/status')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({ status: '' })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -388,7 +391,8 @@ describe('Test Suite For Car Endpoints', () => {
     it('should return error if provided value for status is special characters', done => {
       chai
         .request(server)
-        .patch('/api/v1/car/1/status')
+        .patch('/api/v1/car/4/status')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({ status: '..!' })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -403,7 +407,8 @@ describe('Test Suite For Car Endpoints', () => {
     it('should successfully update car price if provided :carId is number and exist', done => {
       chai
         .request(server)
-        .patch('/api/v1/car/1/price')
+        .patch('/api/v1/car/4/price')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({ price: 1777777 })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -426,6 +431,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .patch('/api/v1/car/me1/price')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({ price: 1777777 })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -435,10 +441,25 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
+    it('should return error if car advert does not belong to the set token', done => {
+      chai
+        .request(server)
+        .patch('/api/v1/car/5/price')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
+        .send({ price: 1777777 })
+        .end((err, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(401);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
     it('should return error if provided :carId does not exist', done => {
       chai
         .request(server)
         .patch('/api/v1/car/1000000/price')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({ price: 1777777 })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -451,7 +472,8 @@ describe('Test Suite For Car Endpoints', () => {
     it('should return error if provided value for price is non-numeric', done => {
       chai
         .request(server)
-        .patch('/api/v1/car/1/price')
+        .patch('/api/v1/car/4/price')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({ price: '132emt' })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -464,7 +486,8 @@ describe('Test Suite For Car Endpoints', () => {
     it('should return error if provided value for price is empty', done => {
       chai
         .request(server)
-        .patch('/api/v1/car/1/price')
+        .patch('/api/v1/car/4/price')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({ price: '' })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -477,7 +500,8 @@ describe('Test Suite For Car Endpoints', () => {
     it('should return error if provided value for price is special characters', done => {
       chai
         .request(server)
-        .patch('/api/v1/car/1/price')
+        .patch('/api/v1/car/4/price')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({ price: '..!' })
         .end((err, res) => {
           res.body.should.be.an('object');
@@ -493,6 +517,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car/1')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'data');
@@ -516,6 +541,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car/mee1')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -528,6 +554,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car/1000000')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -540,6 +567,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car/-1')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -552,6 +580,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car/@!')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -566,6 +595,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=available')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'data');
@@ -589,6 +619,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=available')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'data');
@@ -601,6 +632,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -613,6 +645,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=12')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -627,6 +660,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=available&min_price=1700000&max_price=1900000')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'data');
@@ -650,6 +684,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=available&min_price=mee1&max_price=1900000')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -662,6 +697,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=blue&min_price=mee1&max_price=1900000')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -674,6 +710,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?color=blue&min_price=mee1&max_price=1900000')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -686,6 +723,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=available&min_price=&max_price=1900000')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -698,6 +736,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=available&min_price=1700000&max_price=mee1')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -710,6 +749,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=available&min_price=1700000&max_price=')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -722,6 +762,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=available&min_price=&max_price=')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -734,6 +775,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=available&min_price=1900000&max_price=1700000')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -747,7 +789,8 @@ describe('Test Suite For Car Endpoints', () => {
     it('should successfully delete a specific car Ad if carId is numeric and exist', done => {
       chai
         .request(server)
-        .delete('/api/v1/car/5')
+        .delete('/api/v1/car/3')
+        .set('Authorization', `Bearer ${adminToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'data');
@@ -757,10 +800,36 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
+    it('should return error if header is not set', done => {
+      chai
+        .request(server)
+        .delete('/api/v1/car/3')
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(401);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
+    it('should return error if provided token is not for admin', done => {
+      chai
+        .request(server)
+        .delete('/api/v1/car/3')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(401);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
     it('should return error if carId is non-numeric', done => {
       chai
         .request(server)
         .delete('/api/v1/car/me1')
+        .set('Authorization', `Bearer ${adminToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -773,6 +842,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .delete('/api/v1/car/1000000')
+        .set('Authorization', `Bearer ${adminToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -787,6 +857,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car')
+        .set('Authorization', `Bearer ${adminToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'data');
@@ -806,12 +877,26 @@ describe('Test Suite For Car Endpoints', () => {
           done();
         });
     });
+    it('should return error if provided token is not for admin', done => {
+      chai
+        .request(server)
+        .get('/api/v1/car')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
+        .end((er, res) => {
+          res.body.should.be.an('object');
+          res.body.should.have.keys('status', 'success', 'error');
+          res.body.status.should.be.eql(401);
+          res.body.success.should.be.eql(false);
+          done();
+        });
+    });
   });
   describe('GET /api/v1/car?status=available&state=new', () => {
     it('should view all cars Ad that is unsold and new', done => {
       chai
         .request(server)
         .get('/api/v1/car?status=available&state=new')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'data');
@@ -835,6 +920,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=randomalphabelt&state=new')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -847,6 +933,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?month=jun&state=new')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -859,6 +946,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=available&state=randomalphabelt')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -871,6 +959,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=available&days=monday')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'error');
@@ -885,6 +974,7 @@ describe('Test Suite For Car Endpoints', () => {
       chai
         .request(server)
         .get('/api/v1/car?status=available&state=used')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .end((er, res) => {
           res.body.should.be.an('object');
           res.body.should.have.keys('status', 'success', 'data');

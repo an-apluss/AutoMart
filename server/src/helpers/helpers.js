@@ -13,20 +13,6 @@ import cloud from 'cloudinary';
 export default class Helper {
   /**
    *
-   * Handles the logic to generate ID number
-   * @static
-   * @param {Array} data list of data object to generate id from
-   * @returns Integer
-   * @memberof Helper
-   */
-  static generateId(data) {
-    const lastId = data[data.length - 1].id;
-    const newId = lastId + 1;
-    return newId;
-  }
-
-  /**
-   *
    * Handles the logic to hash a plaintext password
    * @static
    * @param {String} plainTextPassword password plain text to be hash
@@ -66,13 +52,13 @@ export default class Helper {
     const token = jwt.sign(
       {
         id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        isAdmin: user.isAdmin,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        isAdmin: user.isadmin,
         email: user.email
       },
       process.env.JWTPRIVATEKEY,
-      { expiresIn: '1h' }
+      { expiresIn: '24h' }
     );
     return token;
   }
@@ -159,9 +145,6 @@ export default class Helper {
    */
   static validateCarAdvert(data) {
     const schema = {
-      email: Joi.string()
-        .email({ minDomainSegments: 2 })
-        .required(),
       state: Joi.string().required(),
       price: Joi.number()
         .positive()
@@ -196,6 +179,23 @@ export default class Helper {
       resource_type: 'auto'
     });
     return result;
+  }
+
+  /**
+   *
+   *
+   * @static
+   * @param {String} imageId cloudinary image id to be deleted
+   * @memberof Helper
+   */
+  static async cloudinaryDelete(public_id) {
+    const cloudinary = cloud.v2;
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_ID,
+      api_secret: process.env.API_SECRET
+    });
+    await cloudinary.uploader.destroy(public_id);
   }
 
   /**
@@ -276,9 +276,6 @@ export default class Helper {
    */
   static validatePurchaseOrder(orderData) {
     const schema = {
-      email: Joi.string()
-        .email({ minDomainSegments: 2 })
-        .required(),
       carId: Joi.number().required(),
       amount: Joi.number().required()
     };

@@ -41,21 +41,4 @@ export default class User {
 
     return false;
   }
-
-  /**
-   *
-   *
-   * @static
-   * @param {Integer} id
-   * @returns {Object|Boolean} return object if ID is found or boolean if ID can't be found
-   * @memberof User
-   */
-  static async findById(id) {
-    const sqlQuery = `SELECT * FROM users where id = $1`;
-    const { rows, rowCount } = await database.query(sqlQuery, [id]);
-
-    if (rowCount > 0) return rows[0];
-
-    return false;
-  }
 }
