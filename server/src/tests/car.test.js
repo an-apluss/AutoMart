@@ -19,6 +19,7 @@ describe('Test Suite For Car Endpoints', () => {
       .post('/api/v1/auth/signin')
       .send({ email: 'marvelakinseye@gmail.com', password: 'secret' })
       .end((err, res) => {
+        console.log(res.body);
         const { token } = res.body.data;
         adminToken = token;
         done();
@@ -31,6 +32,7 @@ describe('Test Suite For Car Endpoints', () => {
       .post('/api/v1/auth/signin')
       .send({ email: 'anuoluwapoakinseye@gmail.com', password: 'secret' })
       .end((err, res) => {
+        console.log(res.body);
         const { token } = res.body.data;
         buyerSellerToken = token;
         done();
