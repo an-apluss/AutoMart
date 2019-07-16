@@ -1,8 +1,7 @@
 import Helper from '../helpers/helpers';
 import Car from '../models/carModel';
-import UserService from './userService';
 
-const { cloudinaryUpload, validateUnsoldCarWithOptions } = Helper;
+const { cloudinaryUpload, cloudinaryDelete, validateUnsoldCarWithOptions } = Helper;
 
 /**
  *
@@ -20,20 +19,10 @@ export default class CarService {
    * @returns JSON API Response
    * @memberof CarService
    */
-  static async createCar(carImage, carInfo) {
-    const { email } = carInfo;
-    const carOwner = await UserService.findUserByEmail(email);
-
-    if (!carOwner)
-      return {
-        status: 401,
-        error: "Incorrect Input. Email doesn't exist",
-        success: false
-      };
-
+  static async createCar(carImage, carInfo, userData) {
     const { url, public_id } = await cloudinaryUpload(carImage, 'automart');
 
-    carInfo.owner = carOwner.id;
+    carInfo.owner = userData.id;
     carInfo.imageId = public_id;
     carInfo.imageUrl = url;
     carInfo.price = parseFloat(carInfo.price).toFixed(2);
@@ -46,7 +35,7 @@ export default class CarService {
       status: 201,
       data: {
         id,
-        email,
+        email: userData.email,
         created_on,
         manufacturer,
         model,
@@ -66,15 +55,21 @@ export default class CarService {
    * @returns JSON API Response
    * @memberof CarService
    */
-  static async updateCarStatus(carId, newStatus) {
+  static async updateCarStatus(carId, newStatus, userData) {
     const carExist = await Car.findById(parseInt(carId, 10));
 
     if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
 
-    const { email } = await UserService.findUserById(carExist.owner);
+    if (carExist.owner !== userData.id)
+      return {
+        status: 401,
+        error: 'You cannot perform this action. It is not your car',
+        success: false
+      };
+
+    const { email } = userData;
 
     const { status } = await Car.update(carId, 'status', newStatus);
-    carExist.status = status;
 
     const { id, created_on, manufacturer, model, price, state } = carExist;
 
@@ -103,15 +98,21 @@ export default class CarService {
    * @returns JSON API Response
    * @memberof CarService
    */
-  static async updateCarPrice(carId, newPrice) {
+  static async updateCarPrice(carId, newPrice, userData) {
     const carExist = await Car.findById(parseInt(carId, 10));
 
     if (!carExist) return { status: 403, error: 'Car id does not exist', success: false };
 
-    const { email } = await UserService.findUserById(carExist.owner);
+    if (carExist.owner !== userData.id)
+      return {
+        status: 401,
+        error: 'You cannot perform this action. It is not your car',
+        success: false
+      };
+
+    const { email } = userData;
 
     const { price } = await Car.update(carId, 'price', newPrice);
-    carExist.price = price;
 
     const { id, created_on, manufacturer, model, state, status } = carExist;
 
@@ -176,10 +177,18 @@ export default class CarService {
    * Handles the logic to fetch all unsold car adverts
    * @static
    * @param {Object} carString holds the status of the car advert to be fectch
+   * @param {Boolean} isAdmin
    * @returns JSON API Response
    * @memberof CarService
    */
-  static async fetchCars(carString) {
+  static async fetchCars(carString, isAdmin) {
+    if (isAdmin !== false)
+      return {
+        status: 401,
+        success: false,
+        error: `You are unauthorized to perform this action`
+      };
+
     const { status } = carString;
 
     if (typeof status === 'undefined') {
@@ -218,10 +227,18 @@ export default class CarService {
    * Handles the logic to fetch unsold cars within a specific price range
    * @static
    * @param {Object} options holds the status, min_price and max_price of the car advert to be fetch
+   * @param {Boolean} isAdmin
    * @returns JSON API Response
    * @memberof CarService
    */
-  static async fetchCarWithOptions(options) {
+  static async fetchCarWithOptions(options, isAdmin) {
+    if (isAdmin !== false)
+      return {
+        status: 401,
+        success: false,
+        error: `You are unauthorized to perform this action`
+      };
+
     const { status } = options;
     let { min_price, max_price } = options;
 
@@ -281,6 +298,7 @@ export default class CarService {
 
     if (!carExist) return { status: 403, error: 'Provided car id cannot be found', success: false };
 
+    await cloudinaryDelete(carExist.imageid);
     await Car.remove(carId);
 
     return { status: 200, data: 'Car Ad successfully deleted', success: true };
@@ -290,10 +308,18 @@ export default class CarService {
    *
    * Handles the logic to fetch all car adverts whether sold or unsold
    * @static
+   * @param {Boolean} isAdmin
    * @returns JSON API Response
    * @memberof CarService
    */
-  static async fetchAllCars() {
+  static async fetchAllCars(isAdmin) {
+    if (isAdmin !== true)
+      return {
+        status: 401,
+        success: false,
+        error: `You are unauthorized to perform this action`
+      };
+
     let data;
     const allCar = await Car.findAll();
     if (allCar) {
@@ -336,10 +362,18 @@ export default class CarService {
    * Handles the logic of all unsold car advert which state reads used or new
    * @static
    * @param {Object} paramsData holds the status and state of car advert to be fetch
+   * @param {Boolean} isAdmin
    * @returns JSON API Response
    * @memberof CarService
    */
-  static async fetchCarWithState(paramsData) {
+  static async fetchCarWithState(paramsData, isAdmin) {
+    if (isAdmin !== false)
+      return {
+        status: 401,
+        success: false,
+        error: `You are unauthorized to perform this action`
+      };
+
     let { status, state } = paramsData;
 
     if (typeof status === 'undefined')

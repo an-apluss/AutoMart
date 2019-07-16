@@ -10,11 +10,25 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('Test Suite For Flag Endpoints', () => {
+  let buyerSellerToken;
+
+  before(done => {
+    chai
+      .request(server)
+      .post('/api/v1/auth/signin')
+      .send({ email: 'anuoluwapoakinseye@gmail.com', password: 'secret' })
+      .end((err, res) => {
+        const { token } = res.body.data;
+        buyerSellerToken = token;
+        done();
+      });
+  });
   describe('POST /api/v1/flag', () => {
     it('should successfully submit a report if provided data are valid', done => {
       chai
         .request(server)
         .post('/api/v1/flag')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({
           carId: 4,
           reason: 'pricing',
@@ -32,6 +46,7 @@ describe('Test Suite For Flag Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/flag')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({
           carId: 1000000,
           reason: 'pricing',
@@ -49,6 +64,7 @@ describe('Test Suite For Flag Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/flag')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({
           carId: '',
           reason: 'pricing',
@@ -66,6 +82,7 @@ describe('Test Suite For Flag Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/flag')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({
           carId: '1e',
           reason: 'pricing',
@@ -83,6 +100,7 @@ describe('Test Suite For Flag Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/flag')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({
           carId: '1.1',
           reason: 'pricing',
@@ -100,6 +118,7 @@ describe('Test Suite For Flag Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/flag')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({
           carId: 4,
           reason: '',
@@ -117,6 +136,7 @@ describe('Test Suite For Flag Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/flag')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({
           carId: 4,
           reason: 1333333333,
@@ -134,6 +154,7 @@ describe('Test Suite For Flag Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/flag')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({
           carId: 4,
           reason: 'pricing',
@@ -151,6 +172,7 @@ describe('Test Suite For Flag Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/flag')
+        .set('Authorization', `Bearer ${buyerSellerToken}`)
         .send({
           carId: 4,
           reason: 'pricing',

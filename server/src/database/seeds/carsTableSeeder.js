@@ -72,6 +72,17 @@ const createCar = async (
   await createCar(
     3,
     'used',
+    '1800000.00',
+    'lexus',
+    'RX 300 2016',
+    'jeep',
+    'showase',
+    'https://res.cloudinary.com/an-apluss/image/upload/v1558788050/AutoMart/showcase.jpg',
+    'available'
+  );
+  await createCar(
+    3,
+    'used',
     '2500000.00',
     'lexus',
     'RX 330 2016',

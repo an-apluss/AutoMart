@@ -18,7 +18,7 @@ export default class orderController {
    */
   static async postOrder(req, res, next) {
     try {
-      const response = await OrderService.createOrder(req.body);
+      const response = await OrderService.createOrder(req.body, req.user);
       return res.status(response.status).send(response);
     } catch (ex) {
       return next(ex);
@@ -36,7 +36,7 @@ export default class orderController {
    */
   static async updateOrderPrice(req, res, next) {
     try {
-      const response = await OrderService.updatePrice(req.params.orderId, req.body.price);
+      const response = await OrderService.updatePrice(req.params.orderId, req.body.price, req.user);
       return res.status(response.status).send(response);
     } catch (ex) {
       return next(ex);
