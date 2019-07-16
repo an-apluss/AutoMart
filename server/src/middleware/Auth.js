@@ -13,7 +13,7 @@ export default class Auth {
    */
   static checkHeader(req, res, next) {
     try {
-      const header = req.header('Authorization');
+      const header = req.headers.authorization;
 
       if (!header) throw new Error('You do not have access to this page');
 
